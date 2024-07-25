@@ -7,27 +7,23 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import PieChartComponent from "./cards/Piechart";
 
-
 const Dashboard = () => {
-
   const navigate = useNavigate();
   const [timeschedule, setTimeschedule] = useState(0);
   const [countHistory, setCountHistory] = useState(0);
+  const [systemHealth, setSystemHealth] = useState(null);
   const BaseUrl = window.location.hostname || "localhost";
   const Token = Cookies.get("Device_manager_token");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `http://${BaseUrl}:3000/checkAuth`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + Token,
-            },
-          }
-        );
+        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + Token,
+          },
+        });
         const data = await response.json();
         if (data.status === 0) {
           console.log("Token is valid.");
@@ -39,18 +35,14 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [navigate, BaseUrl, Token]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchData2 = async () => {
       try {
-
         const response = await fetch(
           `http://${BaseUrl}:9090/api/deviceManagerInfo/all`,
           {
             method: "get",
             headers: {
-              Authorization: "Bearer " + Token
+              Authorization: "Bearer " + Token,
             },
           }
         );
@@ -62,11 +54,8 @@ const Dashboard = () => {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData();
-  }, [BaseUrl, Token]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    fetchData2();
+    const fetchData3 = async () => {
       try {
         const response = await fetch(
           `http://${BaseUrl}:9090/api/deviceManagerAutoDeploy/allAutoDeployData`,
@@ -83,11 +72,8 @@ const Dashboard = () => {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData();
-  }, [BaseUrl, Token]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    fetchData3();
+    const fetchData4 = async () => {
       try {
         const response = await fetch(
           `http://${BaseUrl}:9090/api/deviceManagerHistory/historys`,
@@ -104,8 +90,27 @@ const Dashboard = () => {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData();
-  }, [BaseUrl, Token]);
+    fetchData4();
+
+    const fetchData5 = async () => {
+      try {
+        const response = await fetch(`http://${BaseUrl}:4050/systemHealth`, {
+          method: "GET",
+          headers: {
+            Authorization: Token,
+          },
+        });
+        const data = await response.json();
+       
+        if (data.status === 0) {
+          setSystemHealth(data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData5();
+  }, [navigate, BaseUrl, Token]);
 
   return (
     <>
@@ -119,7 +124,6 @@ const Dashboard = () => {
               value="2"
               color="#8cbed6"
               icon={<FaMobileAlt />}
-
             />
           </Col>
           <Col md={3}>
@@ -129,7 +133,6 @@ const Dashboard = () => {
               value={timeschedule}
               color="#8cbed6"
               icon={<FaClock />}
-
             />
           </Col>
           <Col md={3}>
@@ -139,19 +142,16 @@ const Dashboard = () => {
               value={countHistory}
               color="#8cbed6"
               icon={<FaHistory />}
-
             />
           </Col>
         </Row>
 
         <Row className="dashboard-row">
           <Col md={7}>
-            <PieChartComponent borderColor="#8cbed6" />
+          {systemHealth !== null && <PieChartComponent systemHealth={systemHealth} />}
           </Col>
         </Row>
-
       </Container>
-
     </>
   );
 };
