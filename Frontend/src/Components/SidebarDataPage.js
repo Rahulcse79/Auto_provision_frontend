@@ -127,7 +127,7 @@ const SidebarDataPage = () => {
     },
     {
       title: 'Fault Logs',
-      path: `http://${BaseUrl}:3000/device-manager/#!/faults`,
+      path: `http://${BaseUrl}:3000/#!/faults`,
       icon: <MdOutlineDisabledByDefault />
     },
     {

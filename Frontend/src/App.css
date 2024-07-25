@@ -368,7 +368,7 @@ button:hover{
 }
 
 .Textlight21 {
-  width: 700px;
+  width: 500px;
   margin: 20px auto;
   padding: 20px;
   background-color: #e6e6e6;
@@ -468,11 +468,13 @@ input[type="file"] {
 }
 
 
-
+.time-schedule-container{
+  display: flex;
+}
 
 .system-settings-container {
   display: flex;
-  margin-left: 250px ;
+  margin-left: 350px ;
   
   background-color: #eee;
 }
@@ -545,3 +547,7 @@ input[type="file"] {
 .SipServerForm button:hover {
   background-color: #0056b3;
 }
+
+
+
+
