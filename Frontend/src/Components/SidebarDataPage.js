@@ -15,11 +15,11 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 const SidebarDataPage = () => {
-  const BaseUrl = "localhost";
+  const BaseUrl = window.location.hostname || "localhost";
   const navigate = useNavigate();
 
   const logOutCall = async () => {
-    Cookies.remove("session");
+    await Cookies.remove("session");
     await new Promise(resolve => setTimeout(resolve, 500));
      navigate("/log-in");
   };
@@ -39,17 +39,17 @@ const SidebarDataPage = () => {
       subNav: [
         {
           title: 'Online Devices',
-          path: `http://${BaseUrl}:3000/device-manager/#!/overview`,
+          path: `http://${BaseUrl}:3000/#!/overview`,
           icon: <BsTelephoneFill />
         },
         {
           title: 'Listing Device',
-          path: `http://${BaseUrl}:3000/device-manager/#!/devices`,
+          path: `http://${BaseUrl}:3000/#!/devices`,
           icon: <AiOutlineOrderedList />
         },
         {
           title: 'File Upload',
-          path: `http://${BaseUrl}:3000/device-manager/#!/admin/files`,
+          path: `http://${BaseUrl}:3000/#!/admin/files`,
           icon: <MdFileUpload />
         }
       ]
