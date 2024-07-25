@@ -12,7 +12,7 @@ import Setting from "./Components/System_setting";
 import Terminal from "./Components/Terminal";
 
 function App() {
-  document.body.style.backgroundColor = 'rgb(31, 40, 62)';
+  document.body.style.backgroundColor = '#f0f0f0';
   
   return (
     <div className="App">

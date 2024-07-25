@@ -1,15 +1,272 @@
+body {
+  background-color: #f0f0f0;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.config-hr {
+  width: 100%;
+  border: none;
+  border-top: 4px solid #d0d0d0; /* Increase the border-top width to make it bold */
+  margin: 20px 0;
+}
+.container {
+  display: flex;
+}
 
-.Textlight {
+/* Horizontal line */
+.config-hr {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #d0d0d0;
+  margin: 20px 0;
+}
+
+button {
+  background-color: #4682b4;
+}
+button:hover{
+  background-color: #79baec;
+  transition: background-color 0.125s ease-in;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background-color: #272c33;
+  color: #d7d9e3;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-header-text{
+
+  position: fixed right;
+  margin-right: 10px;
+  
+
+  font-size: 8px;
+  align-items:right;
+}
+.sidebar-text{
+  color: #ccc;
+  padding: 0;
+  margin-top: 5px;
+}
+
+.sidebar-header {
+  padding: 20px;
+  text-align: center;
+}
+
+
+.nav {
+  background-color: #2f3033;
+  color: #d7d9e3;
+}
+
+.accordion {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.card {
+  background-color: #272c33;
+}
+
+.accordion-toggle {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #d7d9e3;
+  background-color: #272c33 !important;
+}
+
+.nav-link {
+  color: #d7d9e3;
+  padding: 10px 20px;
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  text-decoration: none;
+  background-color: #2f3033;
+}
+
+.nav-link:hover {
+  background-color: #fff; 
+}
+
+.collapse {
+  display: none;
+}
+
+.collapse.show {
+  display: block;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+
+/* Main content */
+.main-content {
+  margin-left: 200px; /* Same width as the sidebar */
+  padding: 20px;
+  background-color: #f8f9fa;
+  flex-grow: 1;
+  width: 100%;
+}
+
+/* Dashboard */
+.dashboard-card {
+  box-shadow: 5px 5px rgba(189, 189, 189, 0.3);
+}
+.home-charts{
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard-container {
+  margin-left: 250px;
+  padding: 20px;
+}
+
+
+/* Dashboard.css */
+.home-charts{
+  box-shadow: rgba(92, 92, 92, 0.5);
+  background-color: #009879;
+}
+
+.dashboard-row {
+  margin-bottom: 20px; /* Add some space between rows */
+  margin-top: 20px;
+
+}
+
+.dashboard-container .row {
+  justify-content: flex-end;
+}
+
+
+/* IP Phone Provisioning Form */
+.login-container21 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: auto;
+}
+.Form-ip-provisioning{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.ip-mac-input{
+  background-color: #ccc !important;
+  color: #363636 !important;
+}
+.login-form21 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fdfdfd;
+  padding: 20px;
+  margin-right: 200px;
+  box-shadow: 5px 5px rgba(92, 92, 92, 0.5);
+  width: auto;
+  
+}
+
+.login-form21 h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-control21 {
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.form-control21 label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control21 input[type="text"],
+.form-control21 input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #272c33;
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.login-form21 button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* IP Phone Block */
+.IpPhoneBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: white;
+  gap: 2rem;
 }
 
-.TextDark
-{
-  color: black;
+.RebootCss {
+  height: 80px;
+  width: 80px;
+  margin: 20px;
 }
+
+.ConfigurationPart {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.config-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.config-section h3 {
+  margin-bottom: 20px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 250px;
+}
+
 
 /* Notification */
-
 .notification {
   position: fixed;
   bottom: 20px;
@@ -55,283 +312,27 @@
   padding: 0;
 }
 
-/* end css of notification */
 
-/* sidebar */
-.sidebar {
-  position: fixed;
-  align-items: left;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 180px; /* Adjust width as needed */
-  background-color: rgb(34, 32, 32); /* Sidebar background color */
-  color: black; /* Text color */
-  padding-top: 20px; /* Space for the header */
-  overflow-y: auto; /* Enable scrolling if content exceeds height */
-  border-right: 1px solid #221c1c; /* Light border to separate sidebar */
-}
-
-.sidebar-header {
-  padding: 10px 20px;
-  text-align: center;
-}
-
-.sidebar-logo {
-  width: 40%; /* Adjust logo size */
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
-.accordion-toggle {
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  background-color: rgb(34, 32, 32);
-  cursor: pointer;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.accordion-toggle:hover {
-  background-color: #646464; /* Hover background color */
-}
-
-.accordion-link {
-  color: black;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.accordion-link:hover {
-  background-color: #646464; /* Hover background color */
-}
-
-.card {
-  border: none;
-  align-items: left;
-}
-
-.card-header {
-  background-color: rgb(44, 37, 37);
-  align-items: left;
-  border-bottom: none;
-  padding: 0;
-}
-
-.card-body {
-  padding: 0;
-}
-
-.accordion-button {
-  padding: 10px 20px;
-  width: 100%;
-  text-align: left;
-  background-color: rgb(116, 115, 115);
-  border: none;
-  box-shadow: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.accordion-button:after {
-  margin-left: auto;
-}
-
-.accordion-collapse {
-  width: 100%;
-}
-
-.accordion-item {
-  border: none;
-}
-
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
-
-
-
-/* -- */
-
-
-/* Home */
-.dashboard-container {
-  margin-left: 250px;
-  padding: 20px;
- 
-}
-
-.dashboard-container .row {
-  justify-content: flex-end;
-}
-
-/* login  */
-.login-container21 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.login-form21 {
-  background-color: #f0f0f0;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-}
-
-.login-form21 h2 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.form-control21 {
-  margin-bottom: 15px;
-}
-
-.form-control21 label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-control21 input[type="text"],
-.form-control21 input[type="password"] {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.login-form21 button {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.login-form21 button:hover {
-  background-color: #0056b3;
-}
-
-/* end login  */
-/* Home Page CSS ---------Starts*/
-
-
-
-
-/* Home Page CSS ----------Ends */
-
-/* -- */
-
-/* IP_phone_provisioning */
-
-.IpPhoneBlock{
-
-  display: flex;         
-  flex-direction: column; 
-  gap: 2rem;               
-  justify-content: center; 
-  align-items: center;
-  color: white;     
-}
-
-.RebootCss {
-  height: 80px;
-  width: 80px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.ConfigurationPart {
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-}
-
-.Fi
-
-/* -- */
-
-/* Ip_phone_home Page */
-
-.BlockPart{
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-}
-
-.partition {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;     
-}
-
-.buttonip {
-  margin: 5px;
-}
-
-.FindLogoCss {
-  height: 200px;
-  width: 200px;
-  margin: 20px;
-}
-
-/* -- */
-
-
-
-
-/* DEMO CSS Starts*/
-.Textlight212232 {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-}
-
-.form-group902232 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* Table Styles */
 .styled-table2232 {
-  width: 80%;
+  width: 100%;
   border-collapse: collapse;
   margin: 25px 0;
   font-size: 0.9em;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Arial', sans-serif;
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-.styled-table2232 thead tr {
-  background-color: #009879;
-  color: #ffffff;
-  text-align: left;
 }
 
 .styled-table2232 th,
 .styled-table2232 td {
   padding: 12px 15px;
+}
+
+.styled-table2232 thead tr {
+  background-color: #cccccc;
+  color: #666666;
+  text-align: left;
 }
 
 .styled-table2232 tbody tr {
@@ -343,30 +344,44 @@
 }
 
 .styled-table2232 tbody tr:last-of-type {
-  border-bottom: 2px solid #009879;
+  border-bottom: 2px solid #a5a5a5;
 }
 
-/* --- */
+.styled-table2232 tbody tr.active-row {
+  font-weight: bold;
+  color: #585858;
+}
 
-body {
-  background-color: rgb(31, 40, 62);
-  color: #fff;
+
+/* Text and Button Styles */
+.Textlight {
+  color: white;
+}
+
+.TextDark {
+  color: black;
+}
+
+.Textlight212232 {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  margin: 20px;
 }
 
 .Textlight21 {
-  max-width: 600px;
+  width: 700px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #516391; 
+  background-color: #e6e6e6;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(66, 66, 66, 0.3);
   cursor: pointer;
 }
 
+.form-group902232,
 .form-group90 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 20px;
 }
 
@@ -385,24 +400,13 @@ input[type="file"],
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
-  background-color: #2f3033; 
-  color: #fff; 
+  background-color: #c0bfbf;
+  color: #6e6e6e;
 }
 
 input[type="file"] {
   padding: 5px;
   cursor: pointer;
-}
-
-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
 }
 
 .radio-group {
@@ -423,8 +427,7 @@ button:hover {
   margin-left: 10px;
 }
 
-/* Demo CSS ends */
-
+/* App Styles */
 .App {
   text-align: center;
 }
@@ -462,4 +465,83 @@ button:hover {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+
+.system-settings-container {
+  display: flex;
+  margin-left: 250px ;
+  
+  background-color: #eee;
+}
+
+.system-settings-content {
+  padding: 20px;
+  width: calc(100% - 250px); /* Adjust to ensure the form fits within the remaining space */
+}
+
+.form-group-flex {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  /* Adjust styles for flex container */
+}
+
+.form-group90 {
+  width: calc(50% - 10px); /* Adjust width as needed for two columns */
+  /* Add other styles as needed */
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  /* Add other input field styles as needed */
+}
+
+.button21 {
+  /* Button styles */
+  width: 100%; /* Make button full width */
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.SipServerForm {
+  margin-left: 270px; /* Adjust as necessary based on your sidebar width */
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  width: calc(100% - 270px); /* Ensure form doesn't overlap sidebar */
+}
+
+.SipServerForm .form-group90 {
+  margin-bottom: 15px;
+}
+
+.SipServerForm label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.SipServerForm input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.SipServerForm button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.SipServerForm button:hover {
+  background-color: #0056b3;
 }

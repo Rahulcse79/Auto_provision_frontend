@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
+
 export default function System_setting() {
   const [subnet, setSubnet] = useState("");
   const [netmask, setNetmask] = useState("");
@@ -93,156 +94,161 @@ export default function System_setting() {
   };
 
   return (
-    <>
+    <div className="system-settings-container">
       <Sidebar />
-
-      <div>
+      <div className="system-settings-content">
         <form className="Textlight21" onSubmit={handleSubmit}>
-          <div className="form-group90">
-            <label htmlFor="subnet">Subnet:</label>
-            <input
-              type="text"
-              id="subnet"
-              name="subnet"
-              className="input-field"
-              value={subnet}
-              onChange={(e) => setSubnet(e.target.value)}
-            />
+          <div className="form-group-flex">
+            <div className="form-group90">
+              <label htmlFor="subnet">Subnet:</label>
+              <input
+                type="text"
+                id="subnet"
+                name="subnet"
+                className="input-field"
+                value={subnet}
+                onChange={(e) => setSubnet(e.target.value)}
+              />
+            </div>
+            <div className="form-group90">
+              <label htmlFor="netmask">Netmask:</label>
+              <input
+                type="text"
+                id="netmask"
+                name="netmask"
+                className="input-field"
+                value={netmask}
+                onChange={(e) => setNetmask(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="form-group90">
-            <label htmlFor="netmask">Netmask:</label>
-            <input
-              type="text"
-              id="netmask"
-              name="netmask"
-              className="input-field"
-              value={netmask}
-              onChange={(e) => setNetmask(e.target.value)}
-            />
+          <div className="form-group-flex">
+            <div className="form-group90">
+              <label htmlFor="rangeStart">Pool start:</label>
+              <input
+                type="text"
+                id="rangeStart"
+                name="rangeStart"
+                className="input-field"
+                value={rangeStart}
+                onChange={(e) => setRangeStart(e.target.value)}
+              />
+            </div>
+            <div className="form-group90">
+              <label htmlFor="rangeEnd">Pool end:</label>
+              <input
+                type="text"
+                id="rangeEnd"
+                name="rangeEnd"
+                className="input-field"
+                value={rangeEnd}
+                onChange={(e) => setRangeEnd(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="form-group90">
-            <label htmlFor="range">Pool start:</label>
-            <input
-              type="text"
-              id="range"
-              name="range"
-              className="input-field"
-              value={rangeStart}
-              onChange={(e) => setRangeStart(e.target.value)}
-            />
+          <div className="form-group-flex">
+            <div className="form-group90">
+              <label htmlFor="routers">Option Routers:</label>
+              <input
+                type="text"
+                id="routers"
+                name="routers"
+                className="input-field"
+                value={routers}
+                onChange={(e) => setRouters(e.target.value)}
+              />
+            </div>
+            <div className="form-group90">
+              <label htmlFor="broadcast">Option Broadcast Address:</label>
+              <input
+                type="text"
+                id="broadcast"
+                name="broadcast"
+                className="input-field"
+                value={broadcast}
+                onChange={(e) => setBroadcast(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="form-group90">
-            <label htmlFor="range">Pool end:</label>
-            <input
-              type="text"
-              id="range"
-              name="range"
-              className="input-field"
-              value={rangeEnd}
-              onChange={(e) => setRangeEnd(e.target.value)}
-            />
+          <div className="form-group-flex">
+            <div className="form-group90">
+              <label htmlFor="domain">Option Domain Name Servers:</label>
+              <input
+                type="text"
+                id="domain"
+                name="domain"
+                className="input-field"
+                value={domain}
+                onChange={(e) => setDomain(e.target.value)}
+              />
+            </div>
+            <div className="form-group90">
+              <label htmlFor="DHCP">Append DHCP Parameter Request List:</label>
+              <input
+                type="text"
+                id="DHCP"
+                name="DHCP"
+                className="input-field"
+                value={DHCP}
+                onChange={(e) => setDHCP(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="form-group90">
-            <label htmlFor="option-routers">Option Routers:</label>
-            <input
-              type="text"
-              id="option-routers"
-              name="option-routers"
-              className="input-field"
-              value={routers}
-              onChange={(e) => setRouters(e.target.value)}
-            />
+          <div className="form-group-flex">
+            <div className="form-group90">
+              <label htmlFor="encapsulated">Option Vendor Encapsulated Options:</label>
+              <input
+                type="text"
+                id="encapsulated"
+                name="encapsulated"
+                className="input-field"
+                value={encapsulated}
+                onChange={(e) => setEncapsulated(e.target.value)}
+              />
+            </div>
+            <div className="form-group90">
+              <label htmlFor="minLease">Default Lease Time:</label>
+              <input
+                type="text"
+                id="minLease"
+                name="minLease"
+                className="input-field"
+                value={minLease}
+                onChange={(e) => setMinLease(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="form-group90">
-            <label htmlFor="option-broadcast-address">
-              Option Broadcast Address:
-            </label>
-            <input
-              type="text"
-              id="option-broadcast-address"
-              name="option-broadcast-address"
-              className="input-field"
-              value={broadcast}
-              onChange={(e) => setBroadcast(e.target.value)}
-            />
+          <div className="form-group-flex">
+            <div className="form-group90">
+              <label htmlFor="maxLease">Max Lease Time:</label>
+              <input
+                type="text"
+                id="maxLease"
+                name="maxLease"
+                className="input-field"
+                value={maxLease}
+                onChange={(e) => setMaxLease(e.target.value)}
+              />
+            </div>
+            <div className="form-group90">
+              <label htmlFor="authoritative">Authoritative:</label>
+              <input
+                type="checkbox"
+                id="authoritative"
+                name="authoritative"
+                className="input-field"
+                checked={authoritative}
+                onChange={handleCheckboxChange}
+              />
+            </div>
           </div>
-          <div className="form-group90">
-            <label htmlFor="option-domain-name-servers">
-              Option Domain Name Servers:
-            </label>
-            <input
-              type="text"
-              id="option-domain-name-servers"
-              name="option-domain-name-servers"
-              className="input-field"
-              value={domain}
-              onChange={(e) => setDomain(e.target.value)}
-            />
+          <div className="form-group-flex">
+            <button type="submit" className="button21">
+              Submit
+            </button>
           </div>
-          <div className="form-group90">
-            <label htmlFor="append-dhcp-parameter-request-list">
-              Append DHCP Parameter Request List:
-            </label>
-            <input
-              type="text"
-              id="append-dhcp-parameter-request-list"
-              name="append-dhcp-parameter-request-list"
-              className="input-field"
-              value={DHCP}
-              onChange={(e) => setDHCP(e.target.value)}
-            />
-          </div>
-          <div className="form-group90">
-            <label htmlFor="option-vendor-encapsulated-options">
-              Option Vendor Encapsulated Options:
-            </label>
-            <input
-              type="text"
-              id="option-vendor-encapsulated-options"
-              name="option-vendor-encapsulated-options"
-              className="input-field"
-              value={encapsulated}
-              onChange={(e) => setEncapsulated(e.target.value)}
-            />
-          </div>
-          <div className="form-group90">
-            <label htmlFor="default-lease-time">Default Lease Time:</label>
-            <input
-              type="text"
-              id="default-lease-time"
-              name="default-lease-time"
-              className="input-field"
-              value={minLease}
-              onChange={(e) => setMinLease(e.target.value)}
-            />
-          </div>
-          <div className="form-group90">
-            <label htmlFor="max-lease-time">Max Lease Time:</label>
-            <input
-              type="text"
-              id="max-lease-time"
-              name="max-lease-time"
-              className="input-field"
-              value={maxLease}
-              onChange={(e) => setMaxLease(e.target.value)}
-            />
-          </div>
-          <div className="form-group90">
-            <label htmlFor="authoritative">Authoritative :</label>
-            <input
-              type="checkbox"
-              id="authoritative"
-              name="authoritative"
-              className="input-field"
-              checked={authoritative} // Bind checked state to 'authoritative' state
-              onChange={handleCheckboxChange} // Handle change event
-            />
-          </div>
-          <button type="submit" className="button21">
-            Submit
-          </button>
         </form>
       </div>
-    </>
+    </div>
   );
 }
