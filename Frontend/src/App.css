@@ -1,0 +1,465 @@
+
+.Textlight {
+  color: white;
+}
+
+.TextDark
+{
+  color: black;
+}
+
+/* Notification */
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 300px;
+}
+
+.notification.error {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.notification.success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.notification.info {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.notification.warning {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* end css of notification */
+
+/* sidebar */
+.sidebar {
+  position: fixed;
+  align-items: left;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 180px; /* Adjust width as needed */
+  background-color: rgb(34, 32, 32); /* Sidebar background color */
+  color: black; /* Text color */
+  padding-top: 20px; /* Space for the header */
+  overflow-y: auto; /* Enable scrolling if content exceeds height */
+  border-right: 1px solid #221c1c; /* Light border to separate sidebar */
+}
+
+.sidebar-header {
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.sidebar-logo {
+  width: 40%; /* Adjust logo size */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.accordion-toggle {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  background-color: rgb(34, 32, 32);
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-toggle:hover {
+  background-color: #646464; /* Hover background color */
+}
+
+.accordion-link {
+  color: black;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-link:hover {
+  background-color: #646464; /* Hover background color */
+}
+
+.card {
+  border: none;
+  align-items: left;
+}
+
+.card-header {
+  background-color: rgb(44, 37, 37);
+  align-items: left;
+  border-bottom: none;
+  padding: 0;
+}
+
+.card-body {
+  padding: 0;
+}
+
+.accordion-button {
+  padding: 10px 20px;
+  width: 100%;
+  text-align: left;
+  background-color: rgb(116, 115, 115);
+  border: none;
+  box-shadow: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-button:after {
+  margin-left: auto;
+}
+
+.accordion-collapse {
+  width: 100%;
+}
+
+.accordion-item {
+  border: none;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+
+
+
+/* -- */
+
+
+/* Home */
+.dashboard-container {
+  margin-left: 250px;
+  padding: 20px;
+ 
+}
+
+.dashboard-container .row {
+  justify-content: flex-end;
+}
+
+/* login  */
+.login-container21 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-form21 {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.login-form21 h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-control21 {
+  margin-bottom: 15px;
+}
+
+.form-control21 label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control21 input[type="text"],
+.form-control21 input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-form21 button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-form21 button:hover {
+  background-color: #0056b3;
+}
+
+/* end login  */
+/* Home Page CSS ---------Starts*/
+
+
+
+
+/* Home Page CSS ----------Ends */
+
+/* -- */
+
+/* IP_phone_provisioning */
+
+.IpPhoneBlock{
+
+  display: flex;         
+  flex-direction: column; 
+  gap: 2rem;               
+  justify-content: center; 
+  align-items: center;
+  color: white;     
+}
+
+.RebootCss {
+  height: 80px;
+  width: 80px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.ConfigurationPart {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.Fi
+
+/* -- */
+
+/* Ip_phone_home Page */
+
+.BlockPart{
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.partition {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;     
+}
+
+.buttonip {
+  margin: 5px;
+}
+
+.FindLogoCss {
+  height: 200px;
+  width: 200px;
+  margin: 20px;
+}
+
+/* -- */
+
+
+
+
+/* DEMO CSS Starts*/
+.Textlight212232 {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.form-group902232 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.styled-table2232 {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table2232 thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table2232 th,
+.styled-table2232 td {
+  padding: 12px 15px;
+}
+
+.styled-table2232 tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table2232 tbody tr:nth-of-type(even) {
+  background-color: rgb(31, 40, 62);
+}
+
+.styled-table2232 tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+/* --- */
+
+body {
+  background-color: rgb(31, 40, 62);
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.Textlight21 {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #516391; 
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.form-group90 {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="file"],
+.button21 {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #2f3033; 
+  color: #fff; 
+}
+
+input[type="file"] {
+  padding: 5px;
+  cursor: pointer;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 5px;
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+}
+
+.file-upload button {
+  margin-left: 10px;
+}
+
+/* Demo CSS ends */
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
