@@ -5,6 +5,8 @@ import { FaMobileAlt, FaClock, FaHistory } from "react-icons/fa";
 import Navbar from "./Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import PieChartComponent from "./cards/Piechart";
+
 
 const Dashboard = () => {
 
@@ -37,12 +39,12 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [navigate,BaseUrl,Token]);
+  }, [navigate, BaseUrl, Token]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
+
         const response = await fetch(
           `http://${BaseUrl}:9090/api/deviceManagerInfo/all`,
           {
@@ -61,7 +63,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [BaseUrl,Token]);
+  }, [BaseUrl, Token]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,7 +84,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [BaseUrl,Token]);
+  }, [BaseUrl, Token]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,39 +105,53 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [BaseUrl,Token]);
+  }, [BaseUrl, Token]);
 
   return (
     <>
       <Navbar />
-      <Container fluid className="dashboard-container">
-        <Row className="justify-content-end">
+      <Container fluid className="dashboard-container rows-flex">
+        <Row className="dashboard-row column-flex">
           <Col md={3}>
             <DashboardCard
+              className="dash-card"
               title="Connected devices"
               value="2"
+              color="#8cbed6"
               icon={<FaMobileAlt />}
-              color="green"
+
             />
           </Col>
           <Col md={3}>
             <DashboardCard
+              className="dash-card"
               title="Time schedule"
               value={timeschedule}
+              color="#8cbed6"
               icon={<FaClock />}
-              color="red"
+
             />
           </Col>
           <Col md={3}>
             <DashboardCard
+              className="dash-card"
               title="Total histories"
               value={countHistory}
+              color="#8cbed6"
               icon={<FaHistory />}
-              color="green"
+
             />
           </Col>
         </Row>
+
+        <Row className="dashboard-row">
+          <Col md={7}>
+            <PieChartComponent borderColor="#8cbed6" />
+          </Col>
+        </Row>
+
       </Container>
+
     </>
   );
 };

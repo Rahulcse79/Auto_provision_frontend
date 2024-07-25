@@ -6,7 +6,6 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function AutoUpdate() {
-  
   const [apiData, setApiData] = useState([]);
   const [apiFailData, setFailApiData] = useState([]);
   const navigate = useNavigate();
@@ -36,7 +35,7 @@ export default function AutoUpdate() {
       }
     };
     fetchData();
-  }, [navigate,BaseUrl,Token]);
+  }, [navigate, BaseUrl, Token]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,8 +72,7 @@ export default function AutoUpdate() {
   
     fetchData();
   }, [BaseUrl, Token, setApiData, setFailApiData]);
-  
-  
+
   const handleDelete = async (id) => {
     try {
       const response = await fetch(`http://${BaseUrl}:9090/api/deviceManagerAutoDeploy/deleteAutoDeployData/${id}`, {
@@ -97,90 +95,93 @@ export default function AutoUpdate() {
   };
 
   return (
-    <>
-      <Navbar />
-      <div>
-        <form className="Textlight212232 Textlight">
-          <div className="form-group902232">
-            <table className="styled-table2232">
-              <thead>
-                <tr>
-                  <th>Serial no.</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>File type</th>
-                  <th>MAC address</th>
-                  <th>File name</th>
-                  <th>Product class</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {apiData.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.id}</td>
-                    <td>{item.date}</td>
-                    <td>{item.time}</td>
-                    <td>{item.fileFormat}</td>
-                    <td>{item.macAddress}</td>
-                    <td>{item.fileName}</td>
-                    <td>{item.productClass}</td>
-                    <td>
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        style={{ cursor: "pointer", color: "red" }}
-                        onClick={() => handleDelete(item.id)}
-                      />
-                    </td>
+    <div style={{ display: "flex" }}>
+      <Navbar style={{ width: "250px" }} />
+      <div style={{ marginLeft: "250px", padding: "20px" }}>
+        <div>
+          <h3 style={{color:"#2b2b2b"}}>Successful auto provisioning list</h3>
+          <form className="Textlight212232 Textlight">
+            <div className="form-group902232">
+              <table className="styled-table2232">
+                <thead>
+                  <tr>
+                    <th>Serial no.</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>File type</th>
+                    <th>MAC address</th>
+                    <th>File name</th>
+                    <th>Product class</th>
+                    <th>Delete</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </form>
-      </div>
+                </thead>
+                <tbody>
+                  {apiData.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.id}</td>
+                      <td>{item.date}</td>
+                      <td>{item.time}</td>
+                      <td>{item.fileFormat}</td>
+                      <td>{item.macAddress}</td>
+                      <td>{item.fileName}</td>
+                      <td>{item.productClass}</td>
+                      <td>
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          style={{ cursor: "pointer", color: "red" }}
+                          onClick={() => handleDelete(item.id)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
 
-      <div>
-        <h2 className="Textlight">Fail auto provisioning list</h2>
-        <form className="Textlight212232 Textlight">
-          <div className="form-group902232">
-            <table className="styled-table2232">
-              <thead>
-                <tr>
-                  <th>Serial no.</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>File type</th>
-                  <th>MAC address</th>
-                  <th>File name</th>
-                  <th>Product class</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {apiFailData.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.id}</td>
-                    <td>{item.date}</td>
-                    <td>{item.time}</td>
-                    <td>{item.fileFormat}</td>
-                    <td>{item.macAddress}</td>
-                    <td>{item.fileName}</td>
-                    <td>{item.productClass}</td>
-                    <td>
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        style={{ cursor: "pointer", color: "red" }}
-                        onClick={() => handleDelete(item.id)}
-                      />
-                    </td>
+        <div>
+          <h3 style={{color:"#2b2b2b"}}>Fail auto provisioning list</h3>
+          <form className="Textlight212232 Textlight">
+            <div className="form-group902232">
+              <table className="styled-table2232">
+                <thead>
+                  <tr>
+                    <th>Serial no.</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>File type</th>
+                    <th>MAC address</th>
+                    <th>File name</th>
+                    <th>Product class</th>
+                    <th>Delete</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </form>
+                </thead>
+                <tbody>
+                  {apiFailData.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.id}</td>
+                      <td>{item.date}</td>
+                      <td>{item.time}</td>
+                      <td>{item.fileFormat}</td>
+                      <td>{item.macAddress}</td>
+                      <td>{item.fileName}</td>
+                      <td>{item.productClass}</td>
+                      <td>
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          style={{ cursor: "pointer", color: "red" }}
+                          onClick={() => handleDelete(item.id)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

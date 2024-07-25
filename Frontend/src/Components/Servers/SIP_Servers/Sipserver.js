@@ -19,6 +19,7 @@ export default function Sip_server() {
 
   const CallSubmit = async (event) => {
     event.preventDefault();
+    // Add your form submission logic here
   }
 
   useEffect(() => {
@@ -44,17 +45,17 @@ export default function Sip_server() {
       }
     };
     fetchData();
-  }, [navigate,BaseUrl,Token]);
+  }, [navigate, BaseUrl, Token]);
 
   return (
     <>
-      <Sidebar/>
+      <Sidebar />
       <div>
-        <form className="Textlight21" onSubmit={CallSubmit}>
+        <form className="SipServerForm" onSubmit={CallSubmit}>
           
-        <div className="form-group90">
+          <div className="form-group90">
             <label htmlFor="macAddress">
-            MacAddress<span style={{ color: "red" }}>*</span>
+              MacAddress<span style={{ color: "red" }}>*</span>
             </label>
             <input
               type="text"
@@ -81,9 +82,7 @@ export default function Sip_server() {
           </div>
 
           <div className="form-group90">
-            <label htmlFor="port">
-            Port :
-            </label>
+            <label htmlFor="port">Port :</label>
             <input
               type="number"
               id="port"
@@ -136,12 +135,12 @@ export default function Sip_server() {
           </div>
 
           <div className="form-group90">
-              <button type="submit" className="button21">
-                Submit
-              </button>
+            <button type="submit" className="button21">
+              Submit
+            </button>
           </div>
         </form>
       </div>
     </>
-  )
+  );
 }
