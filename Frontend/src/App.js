@@ -9,7 +9,6 @@ import TimeSchedule from "./Components/TimeSchedule";
 import LogIn from "./Components/LogIn";
 import SipServer from "./Components/Servers/SIP_Servers/Sipserver";
 import Setting from "./Components/System_setting";
-import Terminal from "./Components/Terminal";
 
 function App() {
   document.body.style.backgroundColor = '#f0f0f0';
@@ -20,7 +19,6 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Home/>}/>
-          <Route path="/terminal" element={<Terminal/>}/>
           <Route path="/history" element={<History/>}/>
           <Route path="/auto-update" element={<AutoUpdate/>}/>
           <Route path="/ip-phone-provisioning" element={<IpPhoneProvisioning/>}/>
