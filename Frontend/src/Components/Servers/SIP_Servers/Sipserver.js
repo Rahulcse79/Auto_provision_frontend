@@ -4,23 +4,63 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 export default function Sip_server() {
-
   const navigate = useNavigate();
   const BaseUrl = window.location.hostname || "localhost";
   const Token = Cookies.get("session");
 
   const [sipServer, setSipServer] = useState("");
   const [macAddress, setMacAddress] = useState("");
-  const [extensionOne, setExtensionOne] = useState("");
-  const [extensionTwo, setExtensionTwo] = useState("");
-  const [port, setPort] = useState("");
-  const [passwordOne, setPasswordOne] = useState("1234");
-  const [passwordOneTwo, setPasswordTwo] = useState("1234");
+  const [account1_Label, setAccount1_Label] = useState("");
+  const [account1_SipUserId, setAccount1_SipUserId] = useState("");
+  const [account1_AuthenticateID, setAccount1_AuthenticateID] =
+    useState("1234");
+  const [account1_DispalyName, setAccount1_DispalyName] = useState("");
+  const [account1_Active, setAccount1_Active] = useState(false);
+  const [account1_LocalSipPort, setAccount1_LocalSipPort] = useState("");
+  const [account1Enabled, setAccount1Enabled] = useState(false);
+
+  const toggleAccount1 = () => {
+    setAccount1Enabled((prevState) => !prevState);
+  };
 
   const CallSubmit = async (event) => {
     event.preventDefault();
-    // Add your form submission logic here
-  }
+    try {
+      const account = account1Enabled ? "1" : "2";
+      const TokenData = JSON.parse(Token);
+      const response = await fetch(`http://${BaseUrl}:9090/api/deviceManager/sip`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${TokenData.AuthToken}`
+        },
+        body: JSON.stringify({
+          sipServer: sipServer,
+          macAddress: macAddress,
+          account1_Label: account1_Label,
+          account1_SipUserId: account1_SipUserId,
+          account1_AuthenticateID: account1_AuthenticateID,
+          account1_DispalyName: account1_DispalyName,
+          account1_Active: account1_Active,
+          account1_LocalSipPort: account1_LocalSipPort,
+          account: account
+        })
+      });
+      if (response.ok) {
+        alert(`Account creation successful.`);
+      } else {
+        alert(`Failed to create account.`);
+      }
+    } catch (error) {
+      console.error('Error creating account:', error);
+      alert('Failed to create account. Please try again.');
+    }
+  };
+  
+
+  const handleCheckboxChange = (e) => {
+    setAccount1_Active(e.target.checked);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +90,6 @@ export default function Sip_server() {
       <Sidebar />
       <div>
         <form className="SipServerForm" onSubmit={CallSubmit}>
-          
           <div className="form-group90">
             <label htmlFor="macAddress">
               MacAddress<span style={{ color: "red" }}>*</span>
@@ -80,55 +119,83 @@ export default function Sip_server() {
           </div>
 
           <div className="form-group90">
-            <label htmlFor="port">Port :</label>
+            <label htmlFor="account1_LocalSipPort">
+              Account local sip port :
+            </label>
             <input
               type="number"
-              id="port"
-              value={port}
-              onChange={(e) => setPort(e.target.value)}
-              placeholder="Enter port"
+              id="account1_LocalSipPort"
+              value={account1_LocalSipPort}
+              onChange={(e) => setAccount1_LocalSipPort(e.target.value)}
+              placeholder="Enter account local sip port."
               required
             />
           </div>
 
           <div className="form-group90">
-            <label htmlFor="extensionOne">Extension 1 :</label>
+            <div>
+              <label>Select account :</label>
+              <button onClick={toggleAccount1}>
+                {account1Enabled ? "1" : "2"}
+              </button>
+            </div>
+          </div>
+
+          <div className="form-group90">
+            <label htmlFor="account1_Active">Account active :</label>
             <input
-              type="number"
-              id="extensionOne"
-              value={extensionOne}
-              onChange={(e) => setExtensionOne(e.target.value)}
+              type="checkbox"
+              id="account1_Active"
+              name="account1_Active"
+              className="input-field"
+              checked={account1_Active}
+              onChange={handleCheckboxChange}
+            />
+          </div>
+
+          <div className="form-group90">
+            <label htmlFor="account1_DispalyName">Account dispalyName :</label>
+            <input
+              type="text"
+              id="account1_DispalyName"
+              value={account1_DispalyName}
+              onChange={(e) => setAccount1_DispalyName(e.target.value)}
               required
             />
           </div>
 
           <div className="form-group90">
-            <label htmlFor="extensionTwo">Password:</label>
+            <label htmlFor="account1_Label">Account label :</label>
             <input
-              type="number"
-              id="extensionTwo"
-              value={passwordOne}
-              onChange={(e) => setPasswordOne(e.target.value)}
+              type="text"
+              id="account1_Label"
+              value={account1_Label}
+              onChange={(e) => setAccount1_Label(e.target.value)}
+              required
             />
           </div>
 
           <div className="form-group90">
-            <label htmlFor="extensionTwo">Password:</label>
+            <label htmlFor="account1_SipUserId">Account sip userId :</label>
             <input
-              type="number"
-              id="extensionTwo"
-              value={extensionTwo}
-              onChange={(e) => setExtensionTwo(e.target.value)}
+              type="text"
+              id="account1_SipUserId"
+              value={account1_SipUserId}
+              onChange={(e) => setAccount1_SipUserId(e.target.value)}
+              required
             />
           </div>
 
           <div className="form-group90">
-            <label htmlFor="extensionTwo">Password:</label>
+            <label htmlFor="account1_AuthenticateID">
+              Account authenticateID :
+            </label>
             <input
-              type="number"
-              id="extensionTwo"
-              value={passwordOneTwo}
-              onChange={(e) => setPasswordTwo(e.target.value)}
+              type="text"
+              id="account1_AuthenticateID"
+              value={account1_AuthenticateID}
+              onChange={(e) => setAccount1_AuthenticateID(e.target.value)}
+              required
             />
           </div>
 
