@@ -18,20 +18,21 @@ export default function System_setting() {
   const [encapsulated, setEncapsulated] = useState("");
   const [authoritative, setAuthoritative] = useState(false);
   const BaseUrl = window.location.hostname || "localhost";
-  const Token = Cookies.get("Device_manager_token");
+  const Token = Cookies.get("session");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const TokenData = JSON.parse(Token);
         const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
-          method: "GET",
+          method: "post",
           headers: {
-            Authorization: "Bearer " + Token,
+            Authorization: "Bearer " + TokenData.AuthToken,
           },
         });
         const data = await response.json();
-        if (data.status === 0) {
+        if (data.status === 1) {
           console.log("Token is valid.");
         } else {
           navigate("/log-in");

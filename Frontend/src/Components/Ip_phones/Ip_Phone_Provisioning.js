@@ -13,24 +13,20 @@ const IpPhoneProvisioning = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
   const BaseUrl = window.location.hostname || "localhost";
-  const Token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aE1ldGhvZCI6ImxvY2FsIiwiaWF0IjoxNzIxMDI2MzI5fQ.qgzAeeRUQ7YCWQKXBnDsTNwkSe4SNswx6G1NYlB3Csc";
+  const Token = Cookies.get("session");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const Token = Cookies.get("Device_manager_token");
-        const response = await fetch(
-          `http://${BaseUrl}:3000/checkAuth`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + Token,
-            },
-          }
-        );
+        const TokenData = JSON.parse(Token);
+        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
+          method: "post",
+          headers: {
+            Authorization: "Bearer " + TokenData.AuthToken,
+          },
+        });
         const data = await response.json();
-        if (data.status === 0) {
+        if (data.status === 1) {
           console.log("Token is valid.");
         } else {
           navigate("/log-in");
@@ -40,7 +36,7 @@ const IpPhoneProvisioning = () => {
       }
     };
     fetchData();
-  }, [navigate, BaseUrl]);
+  }, [navigate, BaseUrl,Token]);
 
   const RebootCall = async () => {
     if (MacAddress === "") {
