@@ -27,24 +27,24 @@ export default function Sip_server() {
     event.preventDefault();
     try {
       const account = account1Enabled ? "1" : "2";
-      const TokenData = JSON.parse(Token);
-      const response = await fetch(`http://${BaseUrl}:9090/api/deviceManager/sip`, {
+      const TokenData = await JSON.parse(Token);
+      const postData = {
+        sipServer: sipServer,
+        account1_Label: account1_Label,
+        account1_SipUserId: account1_SipUserId,
+        account1_AuthenticateID: account1_AuthenticateID,
+        account1_DispalyName: account1_DispalyName,
+        account1_Active: account1_Active,
+        account1_LocalSipPort: account1_LocalSipPort,
+        account: account
+      };
+      const response = await fetch(`http://${BaseUrl}:9090/api/deviceManager/sip/${macAddress}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${TokenData.AuthToken}`
         },
-        body: JSON.stringify({
-          sipServer: sipServer,
-          macAddress: macAddress,
-          account1_Label: account1_Label,
-          account1_SipUserId: account1_SipUserId,
-          account1_AuthenticateID: account1_AuthenticateID,
-          account1_DispalyName: account1_DispalyName,
-          account1_Active: account1_Active,
-          account1_LocalSipPort: account1_LocalSipPort,
-          account: account
-        })
+        body: JSON.stringify(postData)
       });
       if (response.ok) {
         alert(`Account creation successful.`);
