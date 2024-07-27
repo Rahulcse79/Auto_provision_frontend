@@ -136,6 +136,10 @@ const LinuxProvisioning = () => {
   };
 
   const LinuxConfig = async () => {
+    if (ipAddresses.length === 0) {
+      alert("At least one IP address is required.");
+      return;
+    }
     try {
       const TokenData = JSON.parse(Token);
       const transformedIpAddresses = await transformedData(ipAddresses);
@@ -143,7 +147,7 @@ const LinuxProvisioning = () => {
       let result = await fetch(
         `http://${BaseUrl}:4050/linuxConfig`,
         {
-          method: "post",
+          method: "POST",
           headers: {
             Authorization: "Bearer " + TokenData.AuthToken,
           },
@@ -159,8 +163,7 @@ const LinuxProvisioning = () => {
         alert(`Error: ${result.message}`);
       }
     } catch (error) {
-      alert("Error updating firmware file. Please try again.");
-      console.error("Error uploading file:", error);
+      console.error("Internal server error: ");
     }
   };  
 
