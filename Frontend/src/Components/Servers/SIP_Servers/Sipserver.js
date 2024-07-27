@@ -88,7 +88,7 @@ export default function Sip_server() {
   return (
     <>
       <Sidebar />
-      <div>
+      <div className="SipServerContainer">
         <form className="SipServerForm" onSubmit={CallSubmit}>
           <div className="form-group90">
             <label htmlFor="macAddress">

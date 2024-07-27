@@ -93,7 +93,7 @@ export default function TimeSchedule() {
     <div className="time-schedule-container">
       <Navbar />
       <div className="content-container">
-        <form className="Textlight21" onSubmit={handleFileUpload}>
+        <form className="auto-schedule-form" onSubmit={handleFileUpload}>
           <div className="form-group90">
             <label htmlFor="macAddress">
               MAC Address<span style={{ color: "red" }}>*</span>

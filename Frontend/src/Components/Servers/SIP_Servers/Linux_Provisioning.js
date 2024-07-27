@@ -51,17 +51,17 @@ const LinuxProvisioning = () => {
 
   const transformedData = async (ipAddresses) => {
     try {
-        const formattedArray = ipAddresses.map(ip => ({
-            ip: ip,
-            port: 3022
-        }));
-    
-        return formattedArray;
+      const formattedArray = ipAddresses.map(ip => ({
+        ip: ip,
+        port: 3022
+      }));
+
+      return formattedArray;
     } catch (error) {
-        console.error("Error transforming data:", error);
-        throw error;
+      console.error("Error transforming data:", error);
+      throw error;
     }
-};
+  };
 
 
   const RebootCall = async () => {
@@ -141,54 +141,52 @@ const LinuxProvisioning = () => {
   return (
     <>
       <Navbar />
-      <div>
-        <form className="Textlight21">
-          {ipAddresses.map((ipAddress, index) => (
-            <div className="form-group90" key={index}>
-              <label htmlFor={`ipAddress-${index}`}>
-                IP Address <span style={{ color: "red" }}>*</span>
-              </label>
-              <div style={{ display: "flex" }}>
-                <input
-                  type="text"
-                  id={`ipAddress-${index}`}
-                  value={ipAddress}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                  placeholder="Enter IP address"
-                  required
-                />
-                {index > 0 && (
-                  <button
-                    type="button"
-                    className="button21"
-                    onClick={() => removeIpAddress(index)}
-                    style={{ marginLeft: "10px", height: "35px" }}
-                  >
-                    Remove
-                  </button>
-                )}
-              </div>
+      <form className="   linux-provisioning-form">
+        {ipAddresses.map((ipAddress, index) => (
+          <div className="form-group90" key={index}>
+            <label htmlFor={`ipAddress-${index}`}>
+              IP Address <span style={{ color: "red" }}>*</span>
+            </label>
+            <div style={{ display: "flex" }}>
+              <input
+                type="text"
+                id={`ipAddress-${index}`}
+                value={ipAddress}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+                placeholder="Enter IP address"
+                required
+              />
+              {index > 0 && (
+                <button
+                  type="button"
+                  className="button21"
+                  onClick={() => removeIpAddress(index)}
+                  style={{ marginLeft: "10px", height: "35px" }}
+                >
+                  Remove
+                </button>
+              )}
             </div>
-          ))}
+          </div>
+        ))}
 
-          <div className="form-group90">
-            <button type="button" className="button21" onClick={addIpAddress}>
-              + Add IP Address
-            </button>
-          </div>
+        <div className="form-group90">
+          <button type="button" className="button21" onClick={addIpAddress}>
+            + Add IP Address
+          </button>
+        </div>
 
-          <div className="form-group90">
-            <button type="button" className="button21" onClick={RebootCall}>
-              Reboot
-            </button>
-          </div>
-          <div className="form-group90">
-            <button type="button" className="button21" onClick={SendFile}>
-              Send configuration file
-            </button>
-          </div>
-        </form>
-      </div>
+        <div className="form-group90">
+          <button type="button" className="button21" onClick={RebootCall}>
+            Reboot
+          </button>
+        </div>
+        <div className="form-group90">
+          <button type="button" className="button21" onClick={SendFile}>
+            Send configuration file
+          </button>
+        </div>
+      </form>
     </>
   );
 };

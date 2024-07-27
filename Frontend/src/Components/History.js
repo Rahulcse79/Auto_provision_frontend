@@ -135,7 +135,7 @@ export default function History() {
   return (
     <>
       <Navbar />
-      <form className="Textlight212232 Textdark">
+      <form style={{marginLeft:"240px", marginRight:"40px"}} className="Textdark">
         <div className="form-group902232">
           <table className="styled-table2232">
             <thead>
