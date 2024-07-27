@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../../Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import Shell from "../../terminal";
 
 export default function Sip_server() {
   const navigate = useNavigate();
@@ -88,6 +89,7 @@ export default function Sip_server() {
   return (
     <>
       <Sidebar />
+      <Shell/>
       <div>
         <form className="SipServerForm" onSubmit={CallSubmit}>
           <div className="form-group90">
