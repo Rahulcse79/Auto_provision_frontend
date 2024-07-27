@@ -8,7 +8,7 @@ const LinuxProvisioning = () => {
   const navigate = useNavigate();
   const BaseUrl = window.location.hostname || "localhost";
   const Token = Cookies.get("session");
-
+  const [commandNumber, setCommandNumber] = useState("0");
   const [ipAddresses, setIpAddresses] = useState([""]);
 
   useEffect(() => {
@@ -159,13 +159,15 @@ const LinuxProvisioning = () => {
   
       if (result.status === 0) {
         alert(`Success: ${result.message}`);
+        setCommandNumber("41");
       } else {
         alert(`Error: ${result.message}`);
+        setCommandNumber("42");
       }
     } catch (error) {
       console.error("Internal server error: ");
     }
-  };  
+  };
 
   return (
     <>
@@ -223,7 +225,7 @@ const LinuxProvisioning = () => {
           </div>
         </form>
       </div>
-      <Shell />
+      <Shell Data = {commandNumber}/>
     </>
   );
 };
