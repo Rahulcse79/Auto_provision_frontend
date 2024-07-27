@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "./Image/logoDark.png"
 
 export default function LogIn() {
   const [username, setUsername] = useState("");
@@ -56,7 +57,9 @@ export default function LogIn() {
 
   return (
     <>
+       
       <div className="login-container21">
+        <img className="login-img" width={350} src ={Logo} alt ='Loading...'/>
         <form onSubmit={handleSubmit} className="login-form21">
           <h2>Login</h2>
           <div className="form-control21">

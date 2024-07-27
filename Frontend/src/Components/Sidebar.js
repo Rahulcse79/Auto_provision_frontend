@@ -36,7 +36,7 @@ const SidebarTextContainer = styled.div`
 
 const SidebarText = styled.p`
   margin: 5px 0;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 const Sidebar = () => {

@@ -30,7 +30,7 @@ export default function TimeSchedule() {
       }
     };
     fetchData();
-  }, [navigate,BaseUrl,Token]);
+  }, [navigate, BaseUrl, Token]);
 
   const [macAddress, setMacAddress] = useState("");
   const [date, setDate] = useState("");
@@ -50,7 +50,7 @@ export default function TimeSchedule() {
     event.preventDefault();
     let formData = new FormData();
     formData.append("file", selectedFile);
-   
+
     const currentDate = new Date();
     const selectedDateTime = new Date(`${date}T${time}`);
     if (selectedDateTime < currentDate) {
@@ -90,9 +90,9 @@ export default function TimeSchedule() {
   };
 
   return (
-    <>
+    <div className="time-schedule-container">
       <Navbar />
-      <div>
+      <div className="content-container">
         <form className="Textlight21" onSubmit={handleFileUpload}>
           <div className="form-group90">
             <label htmlFor="macAddress">
@@ -170,6 +170,6 @@ export default function TimeSchedule() {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
