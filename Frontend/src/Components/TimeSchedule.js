@@ -92,85 +92,83 @@ export default function TimeSchedule() {
   return (
     <div className="time-schedule-container">
       <Navbar />
-      <div className="system-settings-container">
-        <div className="system-settings-content">
-          <form className="Textlight21" onSubmit={handleFileUpload}>
-            <div className="form-group90">
-              <label htmlFor="macAddress">
-                MAC Address<span style={{ color: "red" }}>*</span>
-              </label>
+      <div className="content-container">
+        <form className="Textlight21" onSubmit={handleFileUpload}>
+          <div className="form-group90">
+            <label htmlFor="macAddress">
+              MAC Address<span style={{ color: "red" }}>*</span>
+            </label>
+            <input
+              type="text"
+              id="macAddress"
+              value={macAddress}
+              onChange={(e) => setMacAddress(e.target.value)}
+              placeholder="Enter MAC address"
+              required
+            />
+          </div>
+
+          <div className="form-group90">
+            <label htmlFor="date">Date:</label>
+            <input
+              type="date"
+              id="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group90">
+            <label htmlFor="time">Time:</label>
+            <input
+              type="time"
+              id="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group90">
+            <label>File type:</label>
+            <div className="radio-group">
               <input
-                type="text"
-                id="macAddress"
-                value={macAddress}
-                onChange={(e) => setMacAddress(e.target.value)}
-                placeholder="Enter MAC address"
+                type="radio"
+                id="configuration"
+                name="fileType"
+                value="configuration"
+                checked={fileType === "configuration"}
+                onChange={handleFileTypeChange}
+              />
+              <label htmlFor="configuration">Vendor Configuration File</label>
+              <input
+                type="radio"
+                id="firmware"
+                name="fileType"
+                value="firmware"
+                checked={fileType === "firmware"}
+                onChange={handleFileTypeChange}
+              />
+              <label htmlFor="firmware">Firmware Upgrade Images</label>
+            </div>
+          </div>
+
+          <div className="form-group90">
+            <label htmlFor="file">Upload File:</label>
+            <div className="file-upload">
+              <input
+                type="file"
+                id="file"
+                onChange={handleFileChange}
                 required
               />
+              <button type="submit" className="button21">
+                Upload
+              </button>
             </div>
-
-            <div className="form-group90">
-              <label htmlFor="date">Date:</label>
-              <input
-                type="date"
-                id="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group90">
-              <label htmlFor="time">Time:</label>
-              <input
-                type="time"
-                id="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group90">
-              <label>File type:</label>
-              <div className="radio-group">
-                <input
-                  type="radio"
-                  id="configuration"
-                  name="fileType"
-                  value="configuration"
-                  checked={fileType === "configuration"}
-                  onChange={handleFileTypeChange}
-                />
-                <label htmlFor="configuration">Vendor Configuration File</label>
-                <input
-                  type="radio"
-                  id="firmware"
-                  name="fileType"
-                  value="firmware"
-                  checked={fileType === "firmware"}
-                  onChange={handleFileTypeChange}
-                />
-                <label htmlFor="firmware">Firmware Upgrade Images</label>
-              </div>
-            </div>
-
-            <div className="form-group90">
-              <label htmlFor="file">Upload File:</label>
-              <div className="file-upload">
-                <input
-                  type="file"
-                  id="file"
-                  onChange={handleFileChange}
-                  required
-                />
-                <button type="submit" className="button21">
-                  Upload
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

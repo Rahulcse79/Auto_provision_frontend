@@ -1,32 +1,22 @@
 body {
-  background-color: #f0f0f0;
   color: #fff;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
-.config-hr {
-  width: 100%;
-  border: none;
-  border-top: 4px solid #d0d0d0; /* Increase the border-top width to make it bold */
-  margin: 20px 0;
-}
-.container {
-  display: flex;
-}
 
-/* Horizontal line */
 .config-hr {
   width: 100%;
   border: none;
-  border-top: 1px solid #d0d0d0;
+  border-top: 2px solid #d0d0d0;
   margin: 20px 0;
 }
 
 button {
   background-color: #4682b4;
 }
-button:hover{
+
+button:hover {
   background-color: #79baec;
   transition: background-color 0.125s ease-in;
 }
@@ -43,26 +33,11 @@ button:hover{
   display: flex;
   flex-direction: column;
 }
-.sidebar-header-text{
-
-  position: fixed right;
-  margin-right: 10px;
-  
-
-  font-size: 8px;
-  align-items:right;
-}
-.sidebar-text{
-  color: #ccc;
-  padding: 0;
-  margin-top: 5px;
-}
 
 .sidebar-header {
   padding: 20px;
   text-align: center;
 }
-
 
 .nav {
   background-color: #2f3033;
@@ -98,7 +73,7 @@ button:hover{
 }
 
 .nav-link:hover {
-  background-color: #fff; 
+  background-color: #fff;
 }
 
 .collapse {
@@ -117,10 +92,9 @@ button:hover{
   margin-right: 0.5rem;
 }
 
-
 /* Main content */
 .main-content {
-  margin-left: 200px; /* Same width as the sidebar */
+
   padding: 20px;
   background-color: #f8f9fa;
   flex-grow: 1;
@@ -131,63 +105,85 @@ button:hover{
 .dashboard-card {
   box-shadow: 5px 5px rgba(189, 189, 189, 0.3);
 }
-.home-charts{
+
+.home-charts {
   display: flex;
   gap: 3rem;
   justify-content: center;
   align-items: center;
 }
+
 .dashboard-container {
   margin-left: 250px;
   padding: 20px;
 }
 
-
-/* Dashboard.css */
-.home-charts{
-  box-shadow: rgba(92, 92, 92, 0.5);
-  background-color: #009879;
-}
-
 .dashboard-row {
-  margin-bottom: 20px; /* Add some space between rows */
+  margin-bottom: 20px;
   margin-top: 20px;
-
 }
 
 .dashboard-container .row {
   justify-content: flex-end;
 }
 
-
 /* IP Phone Provisioning Form */
 .login-container21 {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8rem;
+  background-color: #15171c;
   height: 100vh;
-  margin: auto;
 }
-.Form-ip-provisioning{
+
+.Form-ip-provisioning {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2rem;
 }
-.ip-mac-input{
+
+.ip-mac-input {
   background-color: #ccc !important;
   color: #363636 !important;
 }
-.login-form21 {
+.ip-phone-form{
   display: flex;
+  margin-left: 300px;
+  margin-top: 80px;
   flex-direction: column;
   align-items: center;
   background-color: #fdfdfd;
   padding: 20px;
-  margin-right: 200px;
+  box-shadow: 5px 5px rgba(92, 92, 92, 0.5);
+  width: 650px;
+}
+.ip-phone-form button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.ip-phone-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.ip-phone-form button:hover {
+  background-color: #0056b3;
+}
+.login-form21 {
+  display: flex;
+  margin-left: 250px;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fdfdfd;
+  padding: 20px;
   box-shadow: 5px 5px rgba(92, 92, 92, 0.5);
   width: auto;
-  
 }
 
 .login-form21 h2 {
@@ -223,6 +219,10 @@ button:hover{
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.login-form21 button:hover {
+  background-color: #0056b3;
 }
 
 /* IP Phone Block */
@@ -264,7 +264,6 @@ button:hover{
   gap: 2rem;
   width: 250px;
 }
-
 
 /* Notification */
 .notification {
@@ -312,7 +311,6 @@ button:hover{
   padding: 0;
 }
 
-
 /* Table Styles */
 .styled-table2232 {
   width: 100%;
@@ -352,8 +350,7 @@ button:hover{
   color: #585858;
 }
 
-
-/* Text and Button Styles */
+/* Text Styles */
 .Textlight {
   color: white;
 }
@@ -362,31 +359,33 @@ button:hover{
   color: black;
 }
 
-.Textlight212232 {
-  font-family: Arial, sans-serif;
-  margin: 20px;
+/* Time Schedule Form */
+.time-schedule-container {
+  display: flex;
+  height: 100vh;
+}
+
+.content-container {
+  flex: 1;
+  margin-left: 250px;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 .Textlight21 {
-  width: 500px;
-  margin: 20px auto;
+  max-width: 100%;
+  margin: 20px;
   padding: 20px;
   background-color: #e6e6e6;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(66, 66, 66, 0.3);
-  cursor: pointer;
 }
 
-.form-group902232,
 .form-group90 {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 100%;
   margin-bottom: 20px;
-}
-
-label {
-  font-weight: bold;
 }
 
 input[type="text"],
@@ -411,11 +410,8 @@ input[type="file"] {
 
 .radio-group {
   display: flex;
+  gap: 1rem;
   align-items: center;
-}
-
-.radio-group input[type="radio"] {
-  margin-right: 5px;
 }
 
 .file-upload {
@@ -425,6 +421,51 @@ input[type="file"] {
 
 .file-upload button {
   margin-left: 10px;
+}
+
+.form-group-flex {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.SipServerForm {
+  margin-left: 270px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  width: calc(100% - 270px);
+}
+
+.SipServerForm .form-group90 {
+  margin-bottom: 15px;
+}
+
+.SipServerForm label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.SipServerForm input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.SipServerForm button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.SipServerForm button:hover {
+  background-color: #0056b3;
 }
 
 /* App Styles */
@@ -467,54 +508,23 @@ input[type="file"] {
   }
 }
 
-
-.time-schedule-container{
-  display: flex;
-}
-
 .system-settings-container {
   display: flex;
-  margin-left: 350px ;
-  
+  margin-left: 250px;
   background-color: #eee;
 }
 
 .system-settings-content {
   padding: 20px;
-  width: calc(100% - 250px); /* Adjust to ensure the form fits within the remaining space */
-}
-
-.form-group-flex {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  /* Adjust styles for flex container */
-}
-
-.form-group90 {
-  width: calc(50% - 10px); /* Adjust width as needed for two columns */
-  /* Add other styles as needed */
-}
-
-.input-field {
-  width: 100%;
-  padding: 8px;
-  /* Add other input field styles as needed */
-}
-
-.button21 {
-  /* Button styles */
-  width: 100%; /* Make button full width */
-  padding: 10px;
-  margin-top: 10px;
+  width: calc(100% - 250px);
 }
 
 .SipServerForm {
-  margin-left: 270px; /* Adjust as necessary based on your sidebar width */
+  margin-left: 270px;
   padding: 20px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
-  width: calc(100% - 270px); /* Ensure form doesn't overlap sidebar */
+  width: calc(100% - 270px);
 }
 
 .SipServerForm .form-group90 {
@@ -547,7 +557,3 @@ input[type="file"] {
 .SipServerForm button:hover {
   background-color: #0056b3;
 }
-
-
-
-

@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import PieChartComponent from "./cards/Piechart";
 
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [timeschedule, setTimeschedule] = useState(0);
@@ -36,6 +37,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
+
     const fetchData2 = async () => {
       try {
         const response = await fetch(
@@ -49,13 +51,14 @@ const Dashboard = () => {
         );
         const data = await response.json();
         if (data.status === 0) {
-          console.log(data);
+          console.log(systemHealth);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData2();
+
     const fetchData3 = async () => {
       try {
         const response = await fetch(
@@ -74,6 +77,7 @@ const Dashboard = () => {
       }
     };
     fetchData3();
+
     const fetchData4 = async () => {
       try {
         const response = await fetch(
@@ -113,6 +117,15 @@ const Dashboard = () => {
     fetchData5();
   }, [navigate, BaseUrl, Token]);
 
+  // Transform diskUsage data
+  const formatDiskUsageData = (diskUsage) => {
+    const labels = Object.keys(diskUsage);
+    const values = Object.values(diskUsage).map(value => parseFloat(value.replace(' GB', '')));
+    return { labels, values };
+  };
+
+  const barGraphData = systemHealth ? formatDiskUsageData(systemHealth.data.diskUsage) : null;
+
   return (
     <>
       <Navbar />
@@ -148,8 +161,30 @@ const Dashboard = () => {
         </Row>
 
         <Row className="dashboard-row">
-          <Col md={7}>
-          {systemHealth !== null && <PieChartComponent systemHealth={systemHealth} />}
+          <Col md={3}>
+            {systemHealth !== null && <PieChartComponent 
+            memUsage={systemHealth.data.totalCpu} 
+            title ="CPU Usage"
+            used = 'CPU Used'
+            unused = 'CPU Unused'
+            />}
+            
+          </Col>
+          <Col md={3}>
+            {systemHealth !== null && <PieChartComponent 
+            memUsage={systemHealth.data.diskUsage.diskUsage}
+            title = "Disk Usage"
+            used = 'Disk Used'
+            unused = 'Disk Unused'
+            />}
+          </Col>
+          <Col md={3}>
+            {systemHealth !== null && <PieChartComponent 
+            memUsage={systemHealth.data.ramUsage.memUsage}
+            title = "RAM Usage"
+            used = 'RAM Used'
+            unused = 'RAM Unused'
+            />}
           </Col>
         </Row>
       </Container>

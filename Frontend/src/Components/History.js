@@ -135,7 +135,6 @@ export default function History() {
   return (
     <>
       <Navbar />
-      <div className="Textlight">Histroy</div>
       <form className="Textlight212232 Textdark">
         <div className="form-group902232">
           <table className="styled-table2232">

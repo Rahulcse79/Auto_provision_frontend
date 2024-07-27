@@ -1,30 +1,41 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
-const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
+const PieChartComponent = ({ memUsage, title, used,unused }) => {
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  const value = parseFloat(memUsage);
+  const [color, setColor] = useState("#0088FE");
+  const COLORS = [color, '#00C49F'];
+  const pieData = [
+    { name: used, value },
+    { name: unused, value: 100 - value }
+  ];
 
-const PieChartComponent = ({ borderColor }) => {
+  useEffect(() => {
+    if(memUsage > '85%'){
+      setColor('red');
+    }
+  }, [setColor]);
+
+  const renderCustomLabel = ({ percent }) => {
+    return `${(percent * 100).toFixed(0)}%`;
+  };
+
   return (
-    <div style={{ border: `1px solid ${borderColor}`, padding: '10px' }}>
-      <PieChart width={400} height={400}>
+    <div style={{ padding: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+      <h5>{title}</h5>
+      <PieChart width={276} height={320}>
         <Pie
-          data={data}
-          cx={200}
-          cy={200}
+          data={pieData}
+          cx="50%"
+          cy="50%"
           labelLine={false}
-          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-          outerRadius={80}
+          label={renderCustomLabel}
+          outerRadius={70}
           fill="#8884d8"
           dataKey="value"
         >
-          {data.map((entry, index) => (
+          {pieData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
