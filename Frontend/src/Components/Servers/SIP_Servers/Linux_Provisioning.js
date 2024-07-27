@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import Shell from "../../terminal";
 
 const LinuxProvisioning = () => {
   const navigate = useNavigate();
@@ -51,18 +52,17 @@ const LinuxProvisioning = () => {
 
   const transformedData = async (ipAddresses) => {
     try {
-        const formattedArray = ipAddresses.map(ip => ({
-            ip: ip,
-            port: 3022
-        }));
-    
-        return formattedArray;
-    } catch (error) {
-        console.error("Error transforming data:", error);
-        throw error;
-    }
-};
+      const formattedArray = ipAddresses.map((ip) => ({
+        ip: ip,
+        port: 3022,
+      }));
 
+      return formattedArray;
+    } catch (error) {
+      console.error("Error transforming data:", error);
+      throw error;
+    }
+  };
 
   const RebootCall = async () => {
     try {
@@ -70,10 +70,7 @@ const LinuxProvisioning = () => {
         alert("At least one IP address is required.");
         return;
       }
-
       const transformedIpAddresses = await transformedData(ipAddresses);
-      console.log("Transformed IP addresses:", transformedIpAddresses);
-
       const response = await fetch(
         `http://${BaseUrl}:5090/api/devicemanager/linux/reboot`,
         {
@@ -82,7 +79,7 @@ const LinuxProvisioning = () => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + Token,
           },
-          body: JSON.stringify({ devices: transformedIpAddresses }), // Send devices array
+          body: JSON.stringify({ devices: transformedIpAddresses }), 
         }
       );
 
@@ -138,6 +135,35 @@ const LinuxProvisioning = () => {
     }
   };
 
+  const LinuxConfig = async () => {
+    try {
+      const TokenData = JSON.parse(Token);
+      const transformedIpAddresses = await transformedData(ipAddresses);
+      
+      let result = await fetch(
+        `http://${BaseUrl}:4050/linuxConfig`,
+        {
+          method: "post",
+          headers: {
+            Authorization: "Bearer " + TokenData.AuthToken,
+          },
+          body: JSON.stringify({ devices: transformedIpAddresses })
+        }
+      );
+  
+      result = await result.json();
+  
+      if (result.status === 0) {
+        alert(`Success: ${result.message}`);
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      alert("Error updating firmware file. Please try again.");
+      console.error("Error uploading file:", error);
+    }
+  };  
+
   return (
     <>
       <Navbar />
@@ -183,12 +209,18 @@ const LinuxProvisioning = () => {
             </button>
           </div>
           <div className="form-group90">
+            <button type="button" className="button21" onClick={LinuxConfig}>
+              Configure machine
+            </button>
+          </div>
+          <div className="form-group90">
             <button type="button" className="button21" onClick={SendFile}>
-              Send configuration file
+              Send file
             </button>
           </div>
         </form>
       </div>
+      <Shell />
     </>
   );
 };

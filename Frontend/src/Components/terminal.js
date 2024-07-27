@@ -1,5 +1,4 @@
 import React from 'react';
-import './Shell.css'; // Import CSS for styling (see below)
 
 const Shell = () => {
   const shellOutput = `

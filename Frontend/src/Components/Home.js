@@ -115,16 +115,7 @@ const Dashboard = () => {
       }
     };
     fetchData5();
-  }, [navigate, BaseUrl, Token]);
-
-  // Transform diskUsage data
-  const formatDiskUsageData = (diskUsage) => {
-    const labels = Object.keys(diskUsage);
-    const values = Object.values(diskUsage).map(value => parseFloat(value.replace(' GB', '')));
-    return { labels, values };
-  };
-
-  const barGraphData = systemHealth ? formatDiskUsageData(systemHealth.data.diskUsage) : null;
+  }, [navigate, BaseUrl, Token, systemHealth]);
 
   return (
     <>

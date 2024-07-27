@@ -311,6 +311,46 @@ button:hover {
   padding: 0;
 }
 
+/* Shell css */
+
+.shell {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #000;
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.shell-header {
+  background-color: #333;
+  padding: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.shell-title {
+  color: #00ff00; /* Green color for title */
+}
+
+.shell-body {
+  height: calc(100% - 30px); /* Adjust based on header height */
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.shell-output {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  margin: 0;
+}
+
+
+/* Shell end css */
+
 /* Table Styles */
 .styled-table2232 {
   width: 100%;

@@ -15,7 +15,7 @@ const PieChartComponent = ({ memUsage, title, used,unused }) => {
     if(memUsage > '85%'){
       setColor('red');
     }
-  }, [setColor]);
+  }, [setColor,memUsage]);
 
   const renderCustomLabel = ({ percent }) => {
     return `${(percent * 100).toFixed(0)}%`;
