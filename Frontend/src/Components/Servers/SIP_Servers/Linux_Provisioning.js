@@ -3,12 +3,14 @@ import Navbar from "../../Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Shell from "../../terminal";
+import Header from "../../cards/header";
+import Core from "../../Image/core.png";
 
 const LinuxProvisioning = () => {
   const navigate = useNavigate();
   const BaseUrl = window.location.hostname || "localhost";
   const Token = Cookies.get("session");
-  const [commandNumber, setCommandNumber] = useState("0");
+
   const [ipAddresses, setIpAddresses] = useState([""]);
 
   useEffect(() => {
@@ -79,7 +81,7 @@ const LinuxProvisioning = () => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + Token,
           },
-          body: JSON.stringify({ devices: transformedIpAddresses }), 
+          body: JSON.stringify({ devices: transformedIpAddresses }),
         }
       );
 
@@ -136,44 +138,38 @@ const LinuxProvisioning = () => {
   };
 
   const LinuxConfig = async () => {
-    if (ipAddresses.length === 0) {
-      alert("At least one IP address is required.");
-      return;
-    }
     try {
       const TokenData = JSON.parse(Token);
       const transformedIpAddresses = await transformedData(ipAddresses);
-      
-      let result = await fetch(
-        `http://${BaseUrl}:4050/linuxConfig`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
-          },
-          body: JSON.stringify({ devices: transformedIpAddresses })
-        }
-      );
-  
+
+      let result = await fetch(`http://${BaseUrl}:4050/linuxConfig`, {
+        method: "post",
+        headers: {
+          Authorization: "Bearer " + TokenData.AuthToken,
+        },
+        body: JSON.stringify({ devices: transformedIpAddresses }),
+      });
+
       result = await result.json();
-  
+
       if (result.status === 0) {
         alert(`Success: ${result.message}`);
-        setCommandNumber("41");
       } else {
         alert(`Error: ${result.message}`);
-        setCommandNumber("42");
       }
     } catch (error) {
-      console.error("Internal server error: ");
+      alert("Error updating firmware file. Please try again.");
+      console.error("Error uploading file:", error);
     }
   };
 
   return (
     <>
       <Navbar />
-      <div>
-        <form className="Textlight21">
+      <Header Title="Linux Provisioning" breadcrumb="/Server/5G core" />
+      <div className="linux-container">
+        <img className='linux-img' src={Core} alt="Loading..." />
+        <form className="   linux-provisioning-form">
           {ipAddresses.map((ipAddress, index) => (
             <div className="form-group90" key={index}>
               <label htmlFor={`ipAddress-${index}`}>
@@ -225,7 +221,7 @@ const LinuxProvisioning = () => {
           </div>
         </form>
       </div>
-      <Shell Data = {commandNumber}/>
+      <Shell />
     </>
   );
 };

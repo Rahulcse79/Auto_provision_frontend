@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import Header from "./cards/header";
 
 export default function TimeSchedule() {
 
@@ -90,8 +91,11 @@ export default function TimeSchedule() {
   };
 
   return (
-    <div className="time-schedule-container">
+    <>
       <Navbar />
+      <Header 
+      Title='Auto Scheduling'
+      breadcrumb ='/Scheduling/Auto Scheduling'/>
       <div className="content-container">
         <form className="Textlight21" onSubmit={handleFileUpload}>
           <div className="form-group90">
@@ -170,6 +174,6 @@ export default function TimeSchedule() {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }

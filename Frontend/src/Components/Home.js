@@ -6,6 +6,7 @@ import Navbar from "./Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import PieChartComponent from "./cards/Piechart";
+import Header from './cards/header'
 
 
 const Dashboard = () => {
@@ -120,6 +121,9 @@ const Dashboard = () => {
   return (
     <>
       <Navbar />
+      <Header 
+      Title="Auto Provisioning Dashboard"
+      breadcrumb="/dashboard"/>
       <Container fluid className="dashboard-container rows-flex">
         <Row className="dashboard-row column-flex">
           <Col md={3}>

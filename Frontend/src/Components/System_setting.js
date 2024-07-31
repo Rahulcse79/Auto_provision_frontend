@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import Header from './cards/header'
+
 
 
 export default function System_setting() {
@@ -95,10 +97,13 @@ export default function System_setting() {
   };
 
   return (
-    <div className="system-settings-container">
+    <>
       <Sidebar />
+      <Header 
+      Title='System Settings'
+      breadcrumb ='/System Settings'/>
       <div className="system-settings-content">
-        <form className="Textlight21" onSubmit={handleSubmit}>
+        <form className="system-settings-form" onSubmit={handleSubmit}>
           <div className="form-group-flex">
             <div className="form-group90">
               <label htmlFor="subnet">Subnet:</label>
@@ -250,6 +255,6 @@ export default function System_setting() {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }

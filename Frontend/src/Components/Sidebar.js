@@ -6,8 +6,8 @@ import { IconContext } from 'react-icons/lib';
 import Logo from './Image/logoDark.png';
 
 const SidebarNav = styled.nav`
-  background: #15171c;
-  width: 250px;
+  background-color: #15171c;
+  width: 200px;
   height: 100vh;
   display: flex;
   flex-direction: column;

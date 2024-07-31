@@ -3,6 +3,8 @@ import Navbar from "../Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
+import Header from '../cards/header'
+import IP2LG from '../Image/ip2lg.png'
 
 const IpPhoneProvisioning = () => {
   const [MacAddress, setMacAddress] = useState("");
@@ -216,11 +218,15 @@ const IpPhoneProvisioning = () => {
   return (
     <>
       <Navbar />
-
+      <Header 
+      Title="IP Phones Provisioning"
+      breadcrumb="/IP phone/IP2LG"/>
 
       <form className="ip-phone-form" onSubmit={handleSubmit}>
         <h3>Enter MacAddress</h3>
         <div className="Form-ip-provisioning">
+      <img src={IP2LG} alt='Loading...' />
+
 
 
           <input

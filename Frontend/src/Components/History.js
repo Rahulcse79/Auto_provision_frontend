@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { faTrash, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Header from './cards/header'
+
 
 export default function History() {
   const [apiData, setApiData] = useState([]);
@@ -135,7 +137,10 @@ export default function History() {
   return (
     <>
       <Navbar />
-      <form className="Textlight212232 Textdark">
+      <Header 
+      Title='History'
+      breadcrumb ='/History'/>
+      <form className='history-list' style={{marginLeft:"240px", marginRight:"40px" }} >
         <div className="form-group902232">
           <table className="styled-table2232">
             <thead>
