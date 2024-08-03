@@ -46,7 +46,7 @@ const SidebarDataPage = () => {
         },
         {
           title: 'Listing Device',
-          path: `http://${BaseUrl}:3000/#!/devices`,
+          path: '/listing-devices',
           icon: <AiOutlineOrderedList style={iconColor} />
         },
         {
@@ -80,7 +80,7 @@ const SidebarDataPage = () => {
       subNav: [
         {
           title: 'SIP Server',
-          path: '/sip-server',
+          path: '/',
           icon: <IoIcons.IoIosPaper style={iconColor} />,
           cName: 'sub-nav'
         },
@@ -92,6 +92,7 @@ const SidebarDataPage = () => {
         },
         {
           title: 'IOT',
+          path: '/',
           icon: <SiSmartthings style={iconColor} />
         }
       ]
@@ -129,7 +130,7 @@ const SidebarDataPage = () => {
     },
     {
       title: 'Fault Logs',
-      path: `http://${BaseUrl}:3000/#!/faults`,
+      path: '/fault',
       icon: <MdOutlineDisabledByDefault style={iconColor} />
     },
     {

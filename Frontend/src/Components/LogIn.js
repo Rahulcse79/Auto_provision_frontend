@@ -7,7 +7,8 @@ export default function LogIn() {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const BaseUrl = window.location.hostname || "localhost";
+  const BaseUrlTr069 = process.env.REACT_APP_API_tr069_URL || "localhost";
+  const PORTTr069 = process.env.REACT_APP_API_tr069_PORT || "3000";
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -27,7 +28,7 @@ export default function LogIn() {
       return;
     }
     try {
-      let result = await fetch(`http://${BaseUrl}:3000/login`, {
+      let result = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

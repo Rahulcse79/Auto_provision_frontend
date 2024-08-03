@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Sidebar from "../../Sidebar";
+import React, { useState } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
-import Header from "../../cards/header";
 import Server from "../../Image/server.jpg";
 
 export default function SipServer() {
-  const navigate = useNavigate();
-  const BaseUrl = window.location.hostname || "localhost";
-  const Token = Cookies.get("session");
 
+  const BaseUrlSpring = process.env.REACT_APP_API_SPRING_URL || "localhost";
+  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9090";
+  const CookieName = process.env.REACT_APP_COOKIENAME || "session";
+  const Token = Cookies.get(CookieName);
   const [sipServer, setSipServer] = useState("");
   const [macAddress, setMacAddress] = useState("");
 
@@ -39,7 +37,6 @@ export default function SipServer() {
     event.preventDefault();
     try {
       const TokenData = await JSON.parse(Token);
-
       const postData = {
         sipServer: sipServer,
         macAddress: macAddress,
@@ -60,9 +57,9 @@ export default function SipServer() {
           LocalSipPort: account2_LocalSipPort,
         },
       };
-
+      console.log(postData);
       const response = await fetch(
-        `http://${BaseUrl}:9090/api/deviceManager/sip/${macAddress}`,
+        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/sip/${macAddress}`,
         {
           method: "POST",
           headers: {
@@ -84,33 +81,8 @@ export default function SipServer() {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
-          method: "post",
-          headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
-          },
-        });
-        const data = await response.json();
-        if (data.status === 1) {
-          console.log("Token is valid.");
-        } else {
-          navigate("/log-in");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [navigate, BaseUrl, Token]);
-
   return (
     <>
-      <Sidebar />
-      <Header Title="SIP Server Provisioning" breadcrumb="/Server/SIP server" />
       <div>
         <form className="SipServerForm" onSubmit={CallSubmit}>
           <div style={{ display: "flex" }}>

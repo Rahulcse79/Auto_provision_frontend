@@ -7,8 +7,9 @@ import AutoUpdate from "./Components/AutoUpdateList";
 import History from "./Components/History";
 import TimeSchedule from "./Components/TimeSchedule";
 import LogIn from "./Components/LogIn";
-import SipServer from "./Components/Servers/SIP_Servers/Sipserver";
 import Setting from "./Components/System_setting";
+import Fault from "./Components/Fault";
+import ListingDevices from "./Components/ListingDevices";
 
 function App() {
   document.body.style.backgroundColor = '#f0f0f0';
@@ -25,8 +26,9 @@ function App() {
           <Route path="/linux-provisioning" element={<LinuxProvisioning/>}/>
           <Route path="/time-schedule" element={<TimeSchedule/>}/>
           <Route path="/log-in" element={<LogIn/>}/>
-          <Route path="/sip-server" element={<SipServer/>}/>
           <Route path="/system-setting" element={<Setting/>}/>
+          <Route path="/fault" element={<Fault/>}/>
+          <Route path="/listing-devices" element={<ListingDevices/>}/>
 
         </Routes>
       </BrowserRouter>

@@ -6,19 +6,24 @@ import { faTrash, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from './cards/header'
 
-
 export default function AutoUpdate() {
+
   const [apiData, setApiData] = useState([]);
   const [apiFailData, setFailApiData] = useState([]);
+  const BaseUrlSpring = process.env.REACT_APP_API_SPRING_URL || "localhost";
+  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9090";
+  const BaseUrlTr069 = process.env.REACT_APP_API_tr069_URL || "localhost";
+  const PORTTr069 = process.env.REACT_APP_API_tr069_PORT || "3000";
+  const CookieName = process.env.REACT_APP_COOKIENAME || "session";
   const navigate = useNavigate();
-  const BaseUrl = window.location.hostname || "localhost";
-  const Token = Cookies.get("session");
+  const Token = Cookies.get(CookieName);
 
   useEffect(() => {
+    if(!Token) navigate("/log-in");
     const fetchData = async () => {
       try {
         const TokenData = JSON.parse(Token);
-        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
+        const response = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/checkAuth`, {
           method: "post",
           headers: {
             Authorization: "Bearer " + TokenData.AuthToken,
@@ -35,13 +40,11 @@ export default function AutoUpdate() {
       }
     };
     fetchData();
-  }, [navigate, BaseUrl, Token]);
 
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchData2 = async () => {
       try {
         const response = await fetch(
-          `http://${BaseUrl}:9090/api/deviceManagerAutoDeploy/allAutoDeployData`,
+          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerAutoDeploy/allAutoDeployData`,
           {
             method: "GET",
             headers: {
@@ -70,12 +73,12 @@ export default function AutoUpdate() {
       }
     };
   
-    fetchData();
-  }, [BaseUrl, Token, setApiData, setFailApiData]);
+    fetchData2();
+  }, [navigate, BaseUrlTr069, BaseUrlSpring, PORTSpring, PORTTr069, Token,setApiData, setFailApiData]);
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://${BaseUrl}:9090/api/deviceManagerAutoDeploy/deleteAutoDeployData/${id}`, {
+      const response = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerAutoDeploy/deleteAutoDeployData/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +100,7 @@ export default function AutoUpdate() {
   const handleDownload = async (id) => {
     try {
       const response = await fetch(
-        `http://${BaseUrl}:9090/api/deviceManagerAutoDeploy/AutoDeployData/${id}`,
+        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerAutoDeploy/AutoDeployData/${id}`,
         {
           method: "GET",
           headers: {
@@ -106,38 +109,19 @@ export default function AutoUpdate() {
           },
         }
       );
-  
       if (!response.ok) {
         throw new Error(`Failed to fetch file with ID ${id}.`);
       }
-  
-      // Parse the JSON response
       const data = await response.json();
-  
-      // Extract file information
       const fileName = data.fileName;
-      const fileData = data.files; // Assuming this is the file content
-  
-      // Example: Create a Blob object from fileData (assuming it's base64 data)
+      const fileData = data.files; 
       const blob = new Blob([fileData], { type: "application/octet-stream" });
-  
-      // Create a temporary URL to the blob object
       const url = window.URL.createObjectURL(blob);
-  
-      // Create a link element
       const link = document.createElement("a");
       link.href = url;
-  
-      // Set the filename on the link
       link.setAttribute("download", fileName);
-  
-      // Append the link to the body
       document.body.appendChild(link);
-  
-      // Programmatically click the link to trigger the download
       link.click();
-  
-      // Clean up: remove the link and revoke the URL object
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
   

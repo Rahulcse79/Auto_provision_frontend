@@ -8,20 +8,27 @@ import { useNavigate } from "react-router-dom";
 import PieChartComponent from "./cards/Piechart";
 import Header from './cards/header'
 
-
 const Dashboard = () => {
+
   const navigate = useNavigate();
   const [timeschedule, setTimeschedule] = useState(0);
   const [countHistory, setCountHistory] = useState(0);
   const [systemHealth, setSystemHealth] = useState(null);
-  const BaseUrl = window.location.hostname || "localhost";
-  const Token = Cookies.get("session");
+  const BaseUrlSpring = process.env.REACT_APP_API_SPRING_URL || "localhost";
+  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9090";
+  const BaseUrlTr069 = process.env.REACT_APP_API_tr069_URL || "localhost";
+  const PORTTr069 = process.env.REACT_APP_API_tr069_PORT || "3000";
+  const BaseUrlNode = process.env.REACT_APP_API_NODE_URL || "localhost";
+  const PORTNode = process.env.REACT_APP_API_NODE_PORT || "3000";
+  const CookieName = process.env.REACT_APP_COOKIENAME || "session";
+  const Token = Cookies.get(CookieName);
 
   useEffect(() => {
+    if(!Token) navigate("/log-in");
     const fetchData = async () => {
       try {
         const TokenData = JSON.parse(Token);
-        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
+        const response = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/checkAuth`, {
           method: "post",
           headers: {
             Authorization: "Bearer " + TokenData.AuthToken,
@@ -42,7 +49,7 @@ const Dashboard = () => {
     const fetchData2 = async () => {
       try {
         const response = await fetch(
-          `http://${BaseUrl}:9090/api/deviceManagerInfo/all`,
+          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/all`,
           {
             method: "get",
             headers: {
@@ -63,7 +70,7 @@ const Dashboard = () => {
     const fetchData3 = async () => {
       try {
         const response = await fetch(
-          `http://${BaseUrl}:9090/api/deviceManagerAutoDeploy/allAutoDeployData`,
+          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerAutoDeploy/allAutoDeployData`,
           {
             method: "GET",
             headers: {
@@ -82,7 +89,7 @@ const Dashboard = () => {
     const fetchData4 = async () => {
       try {
         const response = await fetch(
-          `http://${BaseUrl}:9090/api/deviceManagerHistory/historys`,
+          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerHistory/historys`,
           {
             method: "GET",
             headers: {
@@ -100,7 +107,7 @@ const Dashboard = () => {
 
     const fetchData5 = async () => {
       try {
-        const response = await fetch(`http://${BaseUrl}:4050/systemHealth`, {
+        const response = await fetch(`http://${BaseUrlNode}:${PORTNode}/systemHealth`, {
           method: "GET",
           headers: {
             Authorization: Token,
@@ -116,7 +123,7 @@ const Dashboard = () => {
       }
     };
     fetchData5();
-  }, [navigate, BaseUrl, Token, systemHealth]);
+  }, [navigate, BaseUrlSpring, PORTSpring, BaseUrlNode, PORTNode, BaseUrlTr069, PORTTr069, Token, systemHealth]);
 
   return (
     <>

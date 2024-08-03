@@ -7,14 +7,19 @@ import Header from "./cards/header";
 export default function TimeSchedule() {
 
   const navigate = useNavigate();
-  const BaseUrl = window.location.hostname || "localhost";
-  const Token = Cookies.get("session");
+  const BaseUrlTr069 = process.env.REACT_APP_API_tr069_URL || "localhost";
+  const PORTTr069 = process.env.REACT_APP_API_tr069_PORT || "3000";
+  const BaseUrlSpring = process.env.REACT_APP_API_SPRING_URL || "localhost";
+  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9090";
+  const CookieName = process.env.REACT_APP_COOKIENAME || "session";
+  const Token = Cookies.get(CookieName);
   
   useEffect(() => {
+    if(!Token) navigate("/log-in");
     const fetchData = async () => {
       try {
         const TokenData = JSON.parse(Token);
-        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
+        const response = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/checkAuth`, {
           method: "post",
           headers: {
             Authorization: "Bearer " + TokenData.AuthToken,
@@ -31,7 +36,7 @@ export default function TimeSchedule() {
       }
     };
     fetchData();
-  }, [navigate, BaseUrl, Token]);
+  }, [navigate, BaseUrlTr069, PORTTr069, Token]);
 
   const [macAddress, setMacAddress] = useState("");
   const [date, setDate] = useState("");
@@ -64,7 +69,7 @@ export default function TimeSchedule() {
     const Correctdate = `${day}/${month}/${year}`;
     try {
       let response = await fetch(
-        `http://${BaseUrl}:9090/api/deviceManager/addFileAutoDeploy/${macAddress}`,
+        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/addFileAutoDeploy/${macAddress}`,
         {
           method: "put",
           body: formData,
@@ -76,7 +81,6 @@ export default function TimeSchedule() {
           },
         }
       );
-
       let result = await response.json();
       console.log(result);
       if (result.status === 0) {

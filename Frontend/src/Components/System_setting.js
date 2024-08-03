@@ -4,8 +4,6 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Header from './cards/header'
 
-
-
 export default function System_setting() {
   const [subnet, setSubnet] = useState("");
   const [netmask, setNetmask] = useState("");
@@ -19,15 +17,20 @@ export default function System_setting() {
   const [maxLease, setMaxLease] = useState("");
   const [encapsulated, setEncapsulated] = useState("");
   const [authoritative, setAuthoritative] = useState(false);
-  const BaseUrl = window.location.hostname || "localhost";
-  const Token = Cookies.get("session");
+  const BaseUrlTr069 = process.env.REACT_APP_API_tr069_URL || "localhost";
+  const PORTTr069 = process.env.REACT_APP_API_tr069_PORT || "3000";
+  const BaseUrlNode = process.env.REACT_APP_API_NODE_URL || "localhost";
+  const PORTNode = process.env.REACT_APP_API_NODE_PORT || "3000";
+  const CookieName = process.env.REACT_APP_COOKIENAME || "session";
+  const Token = Cookies.get(CookieName);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(!Token) navigate("/log-in");
     const fetchData = async () => {
       try {
         const TokenData = JSON.parse(Token);
-        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
+        const response = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/checkAuth`, {
           method: "post",
           headers: {
             Authorization: "Bearer " + TokenData.AuthToken,
@@ -44,11 +47,10 @@ export default function System_setting() {
       }
     };
     fetchData();
-  }, [navigate, BaseUrl, Token]);
+  }, [navigate, BaseUrlTr069, PORTTr069, Token]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const dhcpConfig = {
       subnet: subnet,
       netmask: netmask,
@@ -65,9 +67,8 @@ export default function System_setting() {
       encapsulated: encapsulated,
       authoritative: authoritative,
     };
-
     try {
-      const response = await fetch(`http://${BaseUrl}:3021/submitDHCPConfig`, {
+      const response = await fetch(`http://${BaseUrlNode}:${PORTNode}/submitDHCPConfig`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +94,7 @@ export default function System_setting() {
   };
 
   const handleCheckboxChange = (e) => {
-    setAuthoritative(e.target.checked); // Update state based on checkbox value
+    setAuthoritative(e.target.checked); 
   };
 
   return (

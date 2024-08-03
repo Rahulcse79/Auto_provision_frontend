@@ -3,21 +3,28 @@ import Navbar from "../Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
-import Header from '../cards/header'
-import IP2LG from '../Image/ip2lg.png'
+import Header from '../cards/header';
+import Sipserver from '../Servers/SIP_Servers/Sipserver';
+import IP2LG from '../Image/ip2lg.png';
 
 const IpPhoneProvisioning = () => {
+
   const [MacAddress, setMacAddress] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
-  const BaseUrl = window.location.hostname || "localhost";
-  const Token = Cookies.get("session");
+  const BaseUrlSpring = process.env.REACT_APP_API_SPRING_URL || "localhost";
+  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9090";
+  const BaseUrlTr069 = process.env.REACT_APP_API_tr069_URL || "localhost";
+  const PORTTr069 = process.env.REACT_APP_API_tr069_PORT || "3000";
+  const CookieName = process.env.REACT_APP_COOKIENAME || "session";
+  const Token = Cookies.get(CookieName);
 
   useEffect(() => {
+    if(!Token) navigate('/log-in');
     const fetchData = async () => {
       try {
         const TokenData = JSON.parse(Token);
-        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
+        const response = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/checkAuth`, {
           method: "post",
           headers: {
             Authorization: "Bearer " + TokenData.AuthToken,
@@ -34,7 +41,7 @@ const IpPhoneProvisioning = () => {
       }
     };
     fetchData();
-  }, [navigate, BaseUrl,Token]);
+  }, [navigate, PORTTr069,BaseUrlTr069,BaseUrlSpring,PORTSpring,Token]);
 
   const RebootCall = async () => {
     if (MacAddress === "") {
@@ -43,7 +50,7 @@ const IpPhoneProvisioning = () => {
     }
     try {
       const TokenData = JSON.parse(Token);
-      let result = await fetch(`http://${BaseUrl}:9090/api/deviceManager/reboot/${MacAddress}`, {
+      let result = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/reboot/${MacAddress}`, {
         method: "get",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +76,7 @@ const IpPhoneProvisioning = () => {
     }
     try {
       const TokenData = JSON.parse(Token);
-      let result = await fetch(`http://${BaseUrl}:9090/api/deviceManager/reset/${MacAddress}`, {
+      let result = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/reset/${MacAddress}`, {
         method: "get",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +114,7 @@ const IpPhoneProvisioning = () => {
       formData.append("file", selectedFile);
       const fileExtension = selectedFile.name.split(".").pop();
       const fileName = `cfg${MacAddress}.${fileExtension}`;
-      let result = await fetch(`http://${BaseUrl}:9090/api/deviceManager/uploadConfig/${MacAddress}`, {
+      let result = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/uploadConfig/${MacAddress}`, {
         method: "post",
         headers: {
           Authorization: "Bearer " + TokenData.AuthToken,
@@ -134,7 +141,7 @@ const IpPhoneProvisioning = () => {
     }
     try {
       const TokenData = JSON.parse(Token);
-      let result = await fetch(`http://${BaseUrl}:9090/api/deviceManager/updateConfig/${MacAddress}`, {
+      let result = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/updateConfig/${MacAddress}`, {
         method: "get",
         headers: {
           Authorization: "Bearer " + TokenData.AuthToken,
@@ -170,7 +177,7 @@ const IpPhoneProvisioning = () => {
       formData.append("file", selectedFile);
       const fileExtension = selectedFile.name.split(".").pop();
       const extensionName = `${fileExtension}`;
-      let result = await fetch(`http://${BaseUrl}:9090/api/deviceManager/uploadFirmware/${MacAddress}`, {
+      let result = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/uploadFirmware/${MacAddress}`, {
         method: "put",
         headers: {
           Authorization: "Bearer " + TokenData.AuthToken,
@@ -197,7 +204,7 @@ const IpPhoneProvisioning = () => {
     }
     try {
       const TokenData = JSON.parse(Token);
-      let result = await fetch(`http://${BaseUrl}:9090/api/deviceManager/updateFirmware/${MacAddress}`, {
+      let result = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/updateFirmware/${MacAddress}`, {
         method: "get",
         headers: {
           Authorization: "Bearer " + TokenData.AuthToken,
@@ -223,12 +230,10 @@ const IpPhoneProvisioning = () => {
       breadcrumb="/IP phone/IP2LG"/>
 
       <form className="ip-phone-form" onSubmit={handleSubmit}>
-        <h3>Enter MacAddress</h3>
+        <h3>IP2LG</h3>
         <div className="Form-ip-provisioning">
       <img src={IP2LG} alt='Loading...' />
-
-
-
+      <h5 style={{marginLeft: "-50px"}}>MacAddress</h5>
           <input
             type="text"
             id="MacAddress"
@@ -265,6 +270,7 @@ const IpPhoneProvisioning = () => {
           <div className="Form-ip-provisioning">
             <Form.Group controlId="formFileDisabled" className="mb-3">
               <Form.Control type="file" onChange={handleFileChange} />
+              {selectedFile && <p>{selectedFile.name}</p>}
             </Form.Group>
 
             <button
@@ -291,10 +297,8 @@ const IpPhoneProvisioning = () => {
           <div className="Form-ip-provisioning">
             <Form.Group controlId="formFileDisabled" className="mb-3">
               <Form.Control type="file" onChange={handleFileChange} />
+              {selectedFile && <p>{selectedFile.name}</p>}
             </Form.Group>
-
-
-
 
             <button
               type="button"
@@ -311,11 +315,9 @@ const IpPhoneProvisioning = () => {
               Update
             </button>
           </div>
-
-
         </div>
       </form>
-
+      <Sipserver/>
     </>
   );
 };

@@ -7,17 +7,22 @@ import Header from "../../cards/header";
 import Core from "../../Image/core.png";
 
 const LinuxProvisioning = () => {
-  const navigate = useNavigate();
-  const BaseUrl = window.location.hostname || "localhost";
-  const Token = Cookies.get("session");
 
+  const navigate = useNavigate();
+  const BaseUrlTr069 = process.env.REACT_APP_API_tr069_URL || "localhost";
+  const PORTTr069 = process.env.REACT_APP_API_tr069_PORT || "3000";
+  const BaseUrlNode = process.env.REACT_APP_API_NODE_URL || "localhost";
+  const PORTNode = process.env.REACT_APP_API_NODE_PORT || "3000";
+  const CookieName = process.env.REACT_APP_COOKIENAME || "session";
+  const Token = Cookies.get(CookieName);
   const [ipAddresses, setIpAddresses] = useState([""]);
 
   useEffect(() => {
+    if(!Token) navigate("/log-in");
     const fetchData = async () => {
       try {
         const TokenData = JSON.parse(Token);
-        const response = await fetch(`http://${BaseUrl}:3000/checkAuth`, {
+        const response = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/checkAuth`, {
           method: "post",
           headers: {
             Authorization: "Bearer " + TokenData.AuthToken,
@@ -34,7 +39,7 @@ const LinuxProvisioning = () => {
       }
     };
     fetchData();
-  }, [navigate, BaseUrl, Token]);
+  }, [navigate, BaseUrlTr069, PORTTr069, Token]);
 
   const handleInputChange = (index, value) => {
     const updatedIpAddresses = [...ipAddresses];
@@ -74,7 +79,7 @@ const LinuxProvisioning = () => {
       }
       const transformedIpAddresses = await transformedData(ipAddresses);
       const response = await fetch(
-        `http://${BaseUrl}:5090/api/devicemanager/linux/reboot`,
+        `http://${BaseUrlNode}:${PORTNode}/api/devicemanager/linux/reboot`,
         {
           method: "POST",
           headers: {
@@ -110,7 +115,7 @@ const LinuxProvisioning = () => {
       const transformedIpAddresses = await transformedData(ipAddresses);
       console.log("Transformed IP addresses:", transformedIpAddresses.devices);
       const response = await fetch(
-        `http://${BaseUrl}:5090/api/devicemanager/linux/filesend`,
+        `http://${BaseUrlNode}:${PORTNode}/api/devicemanager/linux/filesend`,
         {
           method: "POST",
           headers: {
@@ -142,7 +147,7 @@ const LinuxProvisioning = () => {
       const TokenData = JSON.parse(Token);
       const transformedIpAddresses = await transformedData(ipAddresses);
 
-      let result = await fetch(`http://${BaseUrl}:4050/linuxConfig`, {
+      let result = await fetch(`http://${BaseUrlNode}:${PORTNode}/linuxConfig`, {
         method: "post",
         headers: {
           Authorization: "Bearer " + TokenData.AuthToken,
