@@ -9,7 +9,8 @@ import TimeSchedule from "./Components/TimeSchedule";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/System_setting";
 import Fault from "./Components/Fault";
-import ListingDevices from "./Components/ListingDevices";
+import FileUpload from "./Components/FileUpload";
+import ListDevices from "./Components/ListDevices";
 
 function App() {
   document.body.style.backgroundColor = '#f0f0f0';
@@ -28,7 +29,8 @@ function App() {
           <Route path="/log-in" element={<LogIn/>}/>
           <Route path="/system-setting" element={<Setting/>}/>
           <Route path="/fault" element={<Fault/>}/>
-          <Route path="/listing-devices" element={<ListingDevices/>}/>
+          <Route path="/fileUploadList" element={<FileUpload/>}/>
+          <Route path="/listing-devices" element={<ListDevices/>}/>
 
         </Routes>
       </BrowserRouter>

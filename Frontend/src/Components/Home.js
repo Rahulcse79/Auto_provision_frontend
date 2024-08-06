@@ -48,19 +48,14 @@ const Dashboard = () => {
 
     const fetchData2 = async () => {
       try {
-        const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/all`,
-          {
-            method: "get",
-            headers: {
-              Authorization: "Bearer " + Token,
-            },
-          }
-        );
+        const response = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/all`, {
+          method: "GET",
+          headers: {
+            Authorization: Token,
+          },
+        });
         const data = await response.json();
-        if (data.status === 0) {
-          console.log(systemHealth);
-        }
+       console.log(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -137,7 +132,7 @@ const Dashboard = () => {
             <DashboardCard
               className="dash-card"
               title="Connected devices"
-              value="2"
+              value="2 rendom"
               color="#8cbed6"
               icon={<FaMobileAlt />}
             />

@@ -51,7 +51,7 @@ const SidebarDataPage = () => {
         },
         {
           title: 'File Upload',
-          path: `http://${BaseUrl}:3000/#!/admin/files`,
+          path: '/fileUploadList',
           icon: <MdFileUpload style={iconColor} />
         }
       ]

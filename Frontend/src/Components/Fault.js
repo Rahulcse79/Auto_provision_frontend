@@ -108,7 +108,7 @@ export default function Fault() {
               }
             );
             const data = await response.json();
-            setApiData(data);
+          //  setApiData(data);
             console.log(data);
           } catch (error) {
             console.error("Error fetching data:", error);
