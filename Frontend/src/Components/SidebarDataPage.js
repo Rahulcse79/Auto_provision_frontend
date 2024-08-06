@@ -41,7 +41,7 @@ const SidebarDataPage = () => {
       subNav: [
         {
           title: 'Online Devices',
-          path: `http://${BaseUrl}:3000/#!/overview`,
+          path: "online-devices",
           icon: <BsTelephoneFill style={iconColor} />
         },
         {

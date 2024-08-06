@@ -876,3 +876,19 @@ h3 {
 .history-list{
   margin-top: 20px;
 }
+
+/* PieChart.css */
+.pie-chart-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 240px;
+  padding: 20px;
+  height: calc(100vh - 100px); /* Adjust height based on your header and footer */
+  box-sizing: border-box;
+}
+
+.pie-chart {
+  width: 50%;
+  max-width: 600px; /* Adjust the max width as needed */
+  height: auto;
+}
