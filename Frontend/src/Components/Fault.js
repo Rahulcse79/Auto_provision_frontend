@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Sidebar";
 import Cookies from "js-cookie";
-import { faTrash, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from './cards/header'
 
 export default function Fault() {
@@ -16,62 +14,7 @@ export default function Fault() {
     const CookieName = process.env.REACT_APP_COOKIENAME || "session";
     const Token = Cookies.get(CookieName);
     const navigate = useNavigate();
-  
-    const handleDelete = async (id) => {
-      try {
-        const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerHistory/delete/${id}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (response.ok) {
-          alert(`Item with ID ${id} deleted successfully.`);
-          window.location.reload();
-        } else {
-          alert(`Failed to delete item with ID ${id}.`);
-        }
-      } catch (error) {
-        console.error("Error deleting item:", error);
-        alert("Failed to delete item. Please try again.");
-      }
-    };
-  
-    const handleDownload = async (id) => {
-      try {
-        const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerHistory/history/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + Token,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch file with ID ${id}.`);
-        }
-        const data = await response.json();
-        const fileName = data.fileName;
-        const fileData = data.files;
-        const blob = new Blob([fileData], { type: "application/octet-stream" });
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", fileName);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error("Error fetching or downloading file:", error);
-        alert("Failed to download file. Please try again.");
-      }
-    };  
+   
 
     useEffect(() => {
         if(!Token) navigate("/log-in");
@@ -85,9 +28,7 @@ export default function Fault() {
               },
             });
             const data = await response.json();
-            if (data.status === 1) {
-              console.log("Token is valid.");
-            } else {
+            if (data.status !== 1) {
               navigate("/log-in");
             }
           } catch (error) {
@@ -99,7 +40,7 @@ export default function Fault() {
         const fetchData2 = async () => {
           try {
             const response = await fetch(
-              `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerHistory/historys`,
+              `http://${BaseUrlSpring}:${PORTSpring}/api/`,
               {
                 method: "GET",
                 headers: {
@@ -108,8 +49,8 @@ export default function Fault() {
               }
             );
             const data = await response.json();
-          //  setApiData(data);
-            console.log(data);
+           setApiData(data);
+         
           } catch (error) {
             console.error("Error fetching data:", error);
           }
@@ -129,43 +70,15 @@ export default function Fault() {
             <thead>
               <tr>
                 <th>Serial no.</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>File type</th>
-                <th>MAC address</th>
-                <th>File name</th>
-                <th>Product class</th>
-                <th>Version</th>
-                <th>Download file / Delete</th>
+                <th>Fault</th>
+               
               </tr>
             </thead>
             <tbody>
               {apiData.map((item, index) => (
                 <tr key={index}>
                   <td>{item.id}</td>
-                  <td>{item.date}</td>
-                  <td>{item.time}</td>
-                  <td>{item.fileFormat}</td>
-                  <td>{item.macAddress}</td>
-                  <td>{item.fileName}</td>
-                  <td>{item.productClass}</td>
-                  <td>{item.version}</td>
-                  <td>
-                    <FontAwesomeIcon
-                      icon={faDownload}
-                      style={{ cursor: "pointer", color: "green" }}
-                      onClick={() => handleDownload(item.id)}
-                    />
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      style={{
-                        cursor: "pointer",
-                        color: "red",
-                        marginLeft: "10px",
-                      }}
-                      onClick={() => handleDelete(item.id)}
-                    />
-                  </td>
+                  <td>{item.fault}</td>
                 </tr>
               ))}
             </tbody>

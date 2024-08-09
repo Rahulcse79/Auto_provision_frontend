@@ -4,7 +4,6 @@ import * as IoIcons from 'react-icons/io';
 import * as RiIcons from 'react-icons/ri';
 import { FaServer } from 'react-icons/fa6';
 import { MdNetworkCell, MdChecklist, MdOutlineDisabledByDefault, MdFileUpload } from 'react-icons/md';
-import { SiSmartthings } from 'react-icons/si';
 import { RiCalendarScheduleFill } from 'react-icons/ri';
 import { CiTimer } from 'react-icons/ci';
 import { IoSettings, IoLogOutOutline } from 'react-icons/io5';
@@ -15,7 +14,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 const SidebarDataPage = () => {
-  const BaseUrl = window.location.hostname || "localhost";
+ 
   const navigate = useNavigate();
 
   const logOutCall = async () => {
@@ -41,7 +40,7 @@ const SidebarDataPage = () => {
       subNav: [
         {
           title: 'Online Devices',
-          path: "online-devices",
+          path: "/online-devices",
           icon: <BsTelephoneFill style={iconColor} />
         },
         {
@@ -79,22 +78,11 @@ const SidebarDataPage = () => {
       iconOpened: <RiIcons.RiArrowUpSFill style={iconColor} />,
       subNav: [
         {
-          title: 'SIP Server',
-          path: '/',
-          icon: <IoIcons.IoIosPaper style={iconColor} />,
-          cName: 'sub-nav'
-        },
-        {
           title: '5G core',
           path: '/linux-provisioning',
           icon: <MdNetworkCell style={iconColor} />,
           cName: 'sub-nav'
         },
-        {
-          title: 'IOT',
-          path: '/',
-          icon: <SiSmartthings style={iconColor} />
-        }
       ]
     },
     {

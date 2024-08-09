@@ -11,6 +11,7 @@ import Setting from "./Components/System_setting";
 import Fault from "./Components/Fault";
 import FileUpload from "./Components/FileUpload";
 import ListDevices from "./Components/ListDevices";
+import OnlineDevices from "./Components/cards/onlinePie";
 
 function App() {
   document.body.style.backgroundColor = '#f0f0f0';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/fault" element={<Fault/>}/>
           <Route path="/fileUploadList" element={<FileUpload/>}/>
           <Route path="/listing-devices" element={<ListDevices/>}/>
+          <Route path="/online-devices" element={<OnlineDevices/>}/>
 
         </Routes>
       </BrowserRouter>

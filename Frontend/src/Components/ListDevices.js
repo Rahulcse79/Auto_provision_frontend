@@ -3,9 +3,11 @@ import Navbar from "./Sidebar";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Header from "./cards/header";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function Fault() {
-    
+  
   const [apiData, setApiData] = useState([]);
   const BaseUrlSpring = process.env.REACT_APP_API_SPRING_URL || "localhost";
   const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9090";
@@ -42,6 +44,27 @@ export default function Fault() {
     fetchData();
 
     const fetchData2 = async () => {
+      try {
+        const response = await fetch(
+          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/allData`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: Token,
+            },
+          }
+        );
+        const data = await response.json();
+        if (data) {
+          await setApiData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData2();
+
+    const fetchData3 = async () => {
       const TokenData = JSON.parse(Token);
       try {
         const response = await fetch(
@@ -55,13 +78,13 @@ export default function Fault() {
         );
         const data = await response.json();
         if (data) {
-         console.log(data);
+          console.log("Api call successful of add devices.");
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData2();
+    fetchData3();
   }, [
     navigate,
     setApiData,
@@ -73,10 +96,34 @@ export default function Fault() {
     Token,
   ]);
 
+  const handleDelete = async (macAddress) => {
+    const TokenData = JSON.parse(Token);
+    try {
+      const response = await fetch(
+        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/deleteListItem`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + TokenData.AuthToken,
+            macAddress: macAddress,
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.ok && data.status === 0) {
+        alert('Delete request successful');
+      } else {
+        alert('Delete request failed: ' + (data.message || 'No message'));
+      }
+    } catch (error) {
+      console.error("Error making delete request", error);
+    }
+  };
+
   return (
     <>
       <Navbar />
-      <Header Title="History" breadcrumb="/History" />
+      <Header Title="Listing devices" breadcrumb="/Listing_devices" />
       <form
         className="history-list"
         style={{ marginLeft: "240px", marginRight: "40px" }}
@@ -86,20 +133,54 @@ export default function Fault() {
             <thead>
               <tr>
                 <th>Serial no.</th>
-                <th>Name</th>
+                <th>MacAddress</th>
                 <th>OUI</th>
                 <th>Product class</th>
-                <th>Active</th>
+                <th>IpAddress</th>
+                <th>Ping</th>
+                <th>Status</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
               {apiData.map((item, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.name}</td>
+                  <td>{item.id}</td>
+                  <td>{item.macAddress}</td>
                   <td>{item.oui}</td>
                   <td>{item.productClass}</td>
-                  <td>{item.active}</td>
+                  <td>{item.ipAddress?item.ipAddress:"0.0.0.0"}</td>
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faCircle}
+                      style={{
+                        cursor: "pointer",
+                        color: item.ping ? "green" : "red",
+                        marginLeft: "10px",
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faCircle}
+                      style={{
+                        cursor: "pointer",
+                        color: item.activeDevice ? "green" : "red",
+                        marginLeft: "10px",
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      style={{
+                        cursor: "pointer",
+                        color: "red",
+                        marginLeft: "10px",
+                      }}
+                      onClick={() => handleDelete(item.macAddress)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>

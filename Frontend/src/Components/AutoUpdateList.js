@@ -30,9 +30,7 @@ export default function AutoUpdate() {
           },
         });
         const data = await response.json();
-        if (data.status === 1) {
-          console.log("Token is valid.");
-        } else {
+        if (data.status !== 1) {
           navigate("/log-in");
         }
       } catch (error) {

@@ -113,7 +113,6 @@ const LinuxProvisioning = () => {
         return;
       }
       const transformedIpAddresses = await transformedData(ipAddresses);
-      console.log("Transformed IP addresses:", transformedIpAddresses.devices);
       const response = await fetch(
         `http://${BaseUrlNode}:${PORTNode}/api/devicemanager/linux/filesend`,
         {

@@ -86,9 +86,7 @@ export default function History() {
           },
         });
         const data = await response.json();
-        if (data.status === 1) {
-          console.log("Token is valid.");
-        } else {
+        if (data.status !== 1) {
           navigate("/log-in");
         }
       } catch (error) {
@@ -110,7 +108,7 @@ export default function History() {
         );
         const data = await response.json();
         setApiData(data);
-        console.log(data);
+       
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -137,7 +135,7 @@ export default function History() {
                 <th>File name</th>
                 <th>Product class</th>
                 <th>Version</th>
-                <th>Download file / Delete</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>

@@ -57,7 +57,7 @@ export default function SipServer() {
           LocalSipPort: account2_LocalSipPort,
         },
       };
-      console.log(postData);
+   
       const response = await fetch(
         `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/sip/${macAddress}`,
         {

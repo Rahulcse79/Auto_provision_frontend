@@ -37,9 +37,7 @@ export default function System_setting() {
           },
         });
         const data = await response.json();
-        if (data.status === 1) {
-          console.log("Token is valid.");
-        } else {
+        if (data.status !== 1) {
           navigate("/log-in");
         }
       } catch (error) {
@@ -76,13 +74,12 @@ export default function System_setting() {
         },
         body: JSON.stringify(dhcpConfig),
       });
-      console.log(dhcpConfig);
-      console.log(response);
+    
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data);
+     
       if (data.status === 0) {
         console.log("DHCP configuration submitted successfully.");
       } else {

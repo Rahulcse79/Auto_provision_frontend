@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [timeschedule, setTimeschedule] = useState(0);
   const [countHistory, setCountHistory] = useState(0);
   const [systemHealth, setSystemHealth] = useState(null);
+  const [onlineDevices, setOnlineDevices] = useState(0);
   const BaseUrlSpring = process.env.REACT_APP_API_SPRING_URL || "localhost";
   const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9090";
   const BaseUrlTr069 = process.env.REACT_APP_API_tr069_URL || "localhost";
@@ -35,9 +36,7 @@ const Dashboard = () => {
           },
         });
         const data = await response.json();
-        if (data.status === 1) {
-          console.log("Token is valid.");
-        } else {
+        if (data.status !== 1) {
           navigate("/log-in");
         }
       } catch (error) {
@@ -45,6 +44,30 @@ const Dashboard = () => {
       }
     };
     fetchData();
+
+
+    const fetchDevices = async () => {
+      try {
+        const response = await fetch(
+          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/onlineDevices`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: Token,
+            },
+          }
+        );
+        const data = await response.json();
+        if (data) {
+         
+         await setOnlineDevices(data.value);
+         
+        }
+      } catch (error) {
+        console.error("Error fetching device data:", error);
+      }
+    };
+    fetchDevices();
 
     const fetchData2 = async () => {
       try {
@@ -54,8 +77,9 @@ const Dashboard = () => {
             Authorization: Token,
           },
         });
-        const data = await response.json();
-       console.log(data);
+         await response.json();
+       
+       
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -118,7 +142,7 @@ const Dashboard = () => {
       }
     };
     fetchData5();
-  }, [navigate, BaseUrlSpring, PORTSpring, BaseUrlNode, PORTNode, BaseUrlTr069, PORTTr069, Token, systemHealth]);
+  }, [navigate,setOnlineDevices, BaseUrlSpring, PORTSpring, BaseUrlNode, PORTNode, BaseUrlTr069, PORTTr069, Token, systemHealth]);
 
   return (
     <>
@@ -132,7 +156,7 @@ const Dashboard = () => {
             <DashboardCard
               className="dash-card"
               title="Connected devices"
-              value="2 rendom"
+              value={onlineDevices? onlineDevices:""}
               color="#8cbed6"
               icon={<FaMobileAlt />}
             />
@@ -141,7 +165,7 @@ const Dashboard = () => {
             <DashboardCard
               className="dash-card"
               title="Time schedule"
-              value={timeschedule}
+              value={timeschedule?timeschedule:""}
               color="#8cbed6"
               icon={<FaClock />}
             />
@@ -150,7 +174,7 @@ const Dashboard = () => {
             <DashboardCard
               className="dash-card"
               title="Total histories"
-              value={countHistory}
+              value={countHistory?countHistory:""}
               color="#8cbed6"
               icon={<FaHistory />}
             />
