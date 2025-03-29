@@ -1,50 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "./Sidebar";
 import Header from "./cards/header";
 import { faDownload, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export default function Fault({springBootServerUrl, Token}) {
+export default function Fault({ springBootServerUrl, Token }) {
 
   const [apiData, setApiData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const fetchData2 = async () => {
 
-    const fetchData2 = async () => {
-
-      try {
-        const response = await fetch(
-          `${springBootServerUrl}/api/deviceManager/listDevices`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + Token,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status === 0) {
-          const formattedData = JSON.parse(data.message);
-          const transformedData = formattedData.map(item => ({
-            _id: item._id,
-            metadata: {
-              fileType: item['metadata.fileType'] || 'N/A',
-              oui: item['metadata.oui'] || 'N/A',
-              productClass: item['metadata.productClass'] || 'N/A',
-              version: item['metadata.version'] || 'N/A',
-            }
-          }));
-          await setApiData(transformedData);
+    try {
+      const response = await fetch(
+        `${springBootServerUrl}/api/deviceManager/listDevices`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + Token,
+          },
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      );
+      const data = await response.json();
+      if (data.status === 0) {
+        const formattedData = JSON.parse(data.message);
+        const transformedData = formattedData.map(item => ({
+          _id: item._id,
+          metadata: {
+            fileType: item['metadata.fileType'] || 'N/A',
+            oui: item['metadata.oui'] || 'N/A',
+            productClass: item['metadata.productClass'] || 'N/A',
+            version: item['metadata.version'] || 'N/A',
+          }
+        }));
+        await setApiData(transformedData);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    fetchData2();
-  }, []);
+  fetchData2();
 
   const handleDownload = async (FileName) => {
 

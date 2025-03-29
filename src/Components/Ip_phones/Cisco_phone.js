@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../Sidebar";
-
 import Header from "../cards/header";
 import { useNavigate } from "react-router-dom";
 import Cisco from "../Image/cisco.png";

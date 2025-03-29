@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "./Sidebar";
 import { faTrash, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -88,9 +88,7 @@ export default function History({ springBootServerUrl, Token }) {
     }
   };
 
-  useEffect(() => {
-    fetchData2();
-  }, []);
+  fetchData2();
 
   return (
     <>

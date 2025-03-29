@@ -6,14 +6,12 @@ import IP6LP from "../Image/ip6lp.png";
 import AVP6LP from "../Image/avp6lp.png";
 import Dropdown from "react-bootstrap/Dropdown";
 import Papa from "papaparse";
-import { useNavigate } from "react-router-dom";
 
 export default function SipServer({springBootServerUrl, Token}) {
 
   const [fileData, setFileData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fileInputKey, setFileInputKey] = useState(Date.now());
-  const navigate = useNavigate();
   const [sipServer, setSipServer] = useState("");
   const [phoneSelect, setPhoneSelect] = useState("IP2LG");
   const [account, setAccount] = useState("1");
@@ -79,32 +77,9 @@ export default function SipServer({springBootServerUrl, Token}) {
     alert(`Successfully updated macAddress: ${macAddresses.join(", ")}.`);
   }
 
-
-  // const fetchData2 = async () => {
-  //   try {
-  //    
-  //     const response = await fetch(
-  //       `${springBootServerUrl}/api/deviceManagerInfo/allData`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           Authorization: "Bearer " + Token
-  //         },
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     if (data) {
-  //       setApiData(data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-
   const handleApiCall = async () => {
     setLoading(true);
     try {
-      // await fetchData2();
       await new Promise(resolve => setTimeout(resolve, 5000));
       const payload = {
         sipServerIp: sipServerIp,
@@ -121,7 +96,6 @@ export default function SipServer({springBootServerUrl, Token}) {
           profile: row.sipprofile,
         })),
       };
-      if (!Token) navigate("/");
      
       // Make the API call
       const response = await fetch(`${springBootServerUrl}/api/deviceManager/bulkProvisioning`, {
@@ -153,7 +127,6 @@ export default function SipServer({springBootServerUrl, Token}) {
     event.preventDefault();
     try {
       setLoading(true);
-      const TokenData = await JSON.parse(Token);
       if (!showOneByOne) {
         let result = await account_SipUserId.split(",").filter(Boolean);
         result = result.length;

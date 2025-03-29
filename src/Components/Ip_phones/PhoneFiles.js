@@ -52,6 +52,8 @@ export default function PhoneFiles({ springBootServerUrl, Token}) {
     }
   };
 
+  fetchData2();
+
   useEffect(() => {
 
     const fetchData3 = async () => {
@@ -79,7 +81,6 @@ export default function PhoneFiles({ springBootServerUrl, Token}) {
     };
 
     fetchData3();
-    fetchData2();
 
     const intervalId = setInterval(() => {
       fetchData3();
@@ -284,8 +285,6 @@ export default function PhoneFiles({ springBootServerUrl, Token}) {
     }
     setSelectAll(!selectAll);
   };
-
-  let serialNumber = 0;
 
   const closeForm = () => {
     setShowXMLForm(false);

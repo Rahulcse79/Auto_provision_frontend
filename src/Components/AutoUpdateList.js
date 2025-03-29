@@ -1,55 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "./Sidebar";
 import { faTrash, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from './cards/header'
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export default function AutoUpdate({springBootServerUrl, Token}) {
+export default function AutoUpdate({ springBootServerUrl, Token }) {
 
   const [apiData, setApiData] = useState([]);
   const [apiFailData, setFailApiData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData2 = async () => {
+    try {
 
-    const fetchData2 = async () => {
-      try {
-        
-        const response = await fetch(
-          `${springBootServerUrl}/api/deviceManagerAutoDeploy/allAutoDeployData`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + Token
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
+      const response = await fetch(
+        `${springBootServerUrl}/api/deviceManagerAutoDeploy/allAutoDeployData`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + Token
+          },
         }
-        const data = await response.json();
-        const currentDate = new Date();
-
-        const filteredData = data.filter(item => {
-          const [day, month, year] = item.date.split('/');
-          const [hour, minute] = item.time.split(':');
-          const itemDate = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
-          const twentyFourHoursAgo = new Date(currentDate.getTime());
-          return itemDate < twentyFourHoursAgo;
-        });
-
-        setFailApiData(filteredData);
-        setApiData(data.filter(item => !filteredData.includes(item)));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
       }
-    };
+      const data = await response.json();
+      const currentDate = new Date();
 
-    fetchData2();
-  }, []);
+      const filteredData = data.filter(item => {
+        const [day, month, year] = item.date.split('/');
+        const [hour, minute] = item.time.split(':');
+        const itemDate = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
+        const twentyFourHoursAgo = new Date(currentDate.getTime());
+        return itemDate < twentyFourHoursAgo;
+      });
+
+      setFailApiData(filteredData);
+      setApiData(data.filter(item => !filteredData.includes(item)));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  fetchData2();
 
   const handleDelete = async (id) => {
     try {

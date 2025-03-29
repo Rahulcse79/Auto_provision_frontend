@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "./Sidebar";
 import Header from "./cards/header";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -32,9 +32,7 @@ export default function Faults({ springBootServerUrl, Token }) {
     }
   };
 
-  useEffect(() => {
-    fetchData2();
-  }, []);
+  fetchData2();
 
   return (
     <>

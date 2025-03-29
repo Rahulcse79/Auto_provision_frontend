@@ -1,5 +1,6 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, useNavigate, useLocation, useState, useEffect } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Home from "./Components/Home";
 import IpPhoneProvisioning from "./Components/Ip_phones/Ip_Phone_Provisioning";
 import LinuxProvisioning from "./Components/Servers/SIP_Servers/Linux_Provisioning";
@@ -27,8 +28,8 @@ function App() {
   const SpringBoot_server_url = process.env.REACT_APP_SPRINGBOOT_SERVER_URL || "http://0.0.0.0:9093";
   const navigate = useNavigate();
   const [Token, setToken] = useState(null);
+  const [CheckCookie, setCheckCookie] = useState(false);
   const location = useLocation();
-  let CheckCookie = false;
 
   useEffect(() => {
 
@@ -42,7 +43,7 @@ function App() {
       if (FetchCookie !== null) {
         const TokenData = JSON.parse(FetchCookie);
         setToken(TokenData.AuthToken);
-        CheckCookie = true;
+        setCheckCookie(true);
       }
     }
 
@@ -66,7 +67,7 @@ function App() {
       }
     };
     fetchData();
-  }, []);
+  }, [navigate, Token, TR_server_url, Cookie_name, setCheckCookie, CheckCookie, location.pathname]);
 
   return (
     <div className="App">
