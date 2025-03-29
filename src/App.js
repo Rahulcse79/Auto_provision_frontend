@@ -33,11 +33,13 @@ function App() {
   useEffect(() => {
     const CheckLoginPage = window.location.pathname !== "/";
     if (!FetchCookie && CheckLoginPage) {
+      console.log("if (!FetchCookie && CheckLoginPage) " + CheckLoginPage + FetchCookie)
       window.location.href = "/";
       return;
     }
 
     if (!CheckCookie && FetchCookie) {
+      console.log("!CheckCookie && FetchCookie" + FetchCookie + CheckCookie);
       const TokenData = JSON.parse(FetchCookie);
       setToken(TokenData.AuthToken);
       setCheckCookie(true);
@@ -45,8 +47,12 @@ function App() {
   }, [Cookie_name, CheckCookie, FetchCookie]);
 
   useEffect(() => {
-    if (!Token) return;
-
+    if (!Token) {
+      window.location.href = "/";
+      return
+    };
+    
+    console.log(Token)
     const fetchData = async () => {
       try {
         const response = await fetch(`${TR_server_url}/checkAuth`, {
