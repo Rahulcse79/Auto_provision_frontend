@@ -107,7 +107,7 @@ const Dashboard = ({ nodeServerUrl, springBootServerUrl, Token}) => {
     }, 10000);
 
     return () => clearInterval(intervalId);
-  }, [nodeServerUrl, springBootServerUrl]);
+  }, [nodeServerUrl, springBootServerUrl, Token]);
 
   return (
     <>

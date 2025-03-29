@@ -27,32 +27,19 @@ function App() {
   const Node_server_url = process.env.REACT_APP_NODE_SERVER_URL || "http://0.0.0.0:4058";
   const SpringBoot_server_url = process.env.REACT_APP_SPRINGBOOT_SERVER_URL || "http://0.0.0.0:9093";
   const [Token, setToken] = useState(null);
-  const [CheckCookie, setCheckCookie] = useState(false);
-  const FetchCookie = localStorage.getItem(Cookie_name);
 
   useEffect(() => {
-    const CheckLoginPage = window.location.pathname !== "/";
-    if (!FetchCookie && CheckLoginPage) {
-      console.log("if (!FetchCookie && CheckLoginPage) " + CheckLoginPage + FetchCookie)
-      window.location.href = "/";
+
+    const FetchCookie = localStorage.getItem(Cookie_name);
+    if (FetchCookie) {
+      const TokenData = JSON.parse(FetchCookie);
+      if (TokenData && TokenData.AuthToken) {
+        setToken(TokenData.AuthToken);
+      }
+    } else {
       return;
     }
 
-    if (!CheckCookie && FetchCookie) {
-      console.log("!CheckCookie && FetchCookie" + FetchCookie + CheckCookie);
-      const TokenData = JSON.parse(FetchCookie);
-      setToken(TokenData.AuthToken);
-      setCheckCookie(true);
-    }
-  }, [Cookie_name, CheckCookie, FetchCookie]);
-
-  useEffect(() => {
-    if (!Token) {
-      window.location.href = "/";
-      return
-    };
-    
-    console.log(Token)
     const fetchData = async () => {
       try {
         const response = await fetch(`${TR_server_url}/checkAuth`, {
@@ -61,7 +48,11 @@ function App() {
         });
         const data = await response.json();
         if (data.status !== 1) {
+          console.log("redirect login call");
           window.location.href = "/";
+          setCheckAuth(false);
+        } else {
+          setCheckAuth(true);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -69,15 +60,13 @@ function App() {
     };
 
     fetchData();
-  }, [Token, TR_server_url]);
+  }, [Token, TR_server_url, Cookie_name]);
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LogIn trServerUrl={TR_server_url} cookieName={Cookie_name} />} />
-          {FetchCookie && (
-            <>
+              <Route path="/" element={<LogIn trServerUrl={TR_server_url} cookieName={Cookie_name} />} />
               <Route path="/home" element={<Home nodeServerUrl={Node_server_url} springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
               <Route path="/Backup_config" element={<PhoneFiles springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
               <Route path="/cisco_CP-3905" element={<CiscoPhone springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
@@ -94,8 +83,6 @@ function App() {
               <Route path="/call-server" element={<CallServer nodeServerUrl={Node_server_url} Token={Token} />} />
               <Route path="/add-IPAddress" element={<AddIpAddress nodeServerUrl={Node_server_url} Token={Token} />} />
               <Route path="/faults" element={<Faults springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
-            </>
-          )}
         </Routes>
       </BrowserRouter>
     </div>
