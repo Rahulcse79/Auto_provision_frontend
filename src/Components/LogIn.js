@@ -4,8 +4,8 @@ import Logo from "./Image/logoDark.png"
 const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
 
 export default function LogIn() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("admin");
 
   const navigate = useNavigate();
   const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
