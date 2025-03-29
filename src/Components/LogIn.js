@@ -30,7 +30,7 @@ export default function LogIn() {
       return;
     }
     try {
-      let result = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/login`, {
+      let result = await fetch(`https://auto-provisioning-tr069.onrender.com/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

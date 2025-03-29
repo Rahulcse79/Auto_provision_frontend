@@ -24,7 +24,7 @@ export default function CallServer() {
       try {
         const TokenData = JSON.parse(Token);
         const response = await fetch(
-          `http://${BaseUrlTr069}:${PORTTr069}/checkAuth`,
+          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
           {
             method: "post",
             headers: {

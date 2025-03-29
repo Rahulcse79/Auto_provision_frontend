@@ -37,7 +37,7 @@ export default function TimeSchedule() {
       try {
         if (!Token) navigate("/");
         const TokenData = JSON.parse(Token);
-        const response = await fetch(`http://${BaseUrlTr069}:${PORTTr069}/checkAuth`, {
+        const response = await fetch(`https://auto-provisioning-tr069.onrender.com/checkAuth`, {
           method: "post",
           headers: {
             Authorization: "Bearer " + TokenData.AuthToken,

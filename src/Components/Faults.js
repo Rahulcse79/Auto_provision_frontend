@@ -21,7 +21,7 @@ export default function History() {
     try {
       if (!Token) navigate("/");
       const response = await fetch(
-        `http://${BaseUrlTr069}:${PORTTr069}/checkAuth`,
+        `https://auto-provisioning-tr069.onrender.com/checkAuth`,
         {
           method: "post",
           headers: {
