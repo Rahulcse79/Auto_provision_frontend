@@ -14,13 +14,12 @@ import { SiServerfault } from "react-icons/si";
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
-
 const SidebarDataPage = () => {
  
   const navigate = useNavigate();
-
+  const cookiename = process.env.REACT_APP_COOKIENAME || "Auto_Provisioning_Server";
   const logOutCall = async () => {
-    Cookies.remove(CookieName); 
+    Cookies.remove(cookiename); 
     await new Promise(resolve => setTimeout(resolve, 500));
     navigate("/");
   };
