@@ -1,41 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Navbar from "../../Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import Header from '../../cards/header';
 
 export default function Iot_gateway() {
-
-  const navigate = useNavigate();
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
-
-  useEffect(() => {
-    if (!Token) navigate("/");
-    const fetchData = async () => {
-      try {
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(
-          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-          {
-            method: "post",
-            headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
 
   return (
     <>

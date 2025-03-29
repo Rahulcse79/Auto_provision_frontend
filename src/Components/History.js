@@ -1,28 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Sidebar";
-import Cookies from "js-cookie";
 import { faTrash, faDownload } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "./cards/header";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export default function History() {
+export default function History({ springBootServerUrl, Token }) {
+
   const [apiData, setApiData] = useState([]);
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   const handleDelete = async (id) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerHistory/delete/${id}`,
+        `${springBootServerUrl}/api/deviceManagerHistory/delete/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -47,7 +39,7 @@ export default function History() {
   const handleDownload = async (id) => {
     try {
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerHistory/history/${id}`,
+        `${springBootServerUrl}/api/deviceManagerHistory/history/${id}`,
         {
           method: "GET",
           headers: {
@@ -76,36 +68,14 @@ export default function History() {
     }
   };
 
-  const fetchData = async () => {
-    try {
-      if (!Token) navigate("/");
-      const TokenData = JSON.parse(Token);
-      const response = await fetch(
-        `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-        {
-          method: "post",
-          headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
-          },
-        }
-      );
-      const data = await response.json();
-      if (data.status !== 1) {
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   const fetchData2 = async () => {
     try {
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerHistory/historys`,
+        `${springBootServerUrl}/api/deviceManagerHistory/historys`,
         {
           method: "GET",
           headers: {
-            Authorization: Token,
+            Authorization: "Bearer " + Token
           },
         }
       );
@@ -119,7 +89,6 @@ export default function History() {
   };
 
   useEffect(() => {
-    fetchData();
     fetchData2();
   }, []);
 

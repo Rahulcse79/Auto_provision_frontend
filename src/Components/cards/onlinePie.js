@@ -3,56 +3,23 @@ import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import Sidebar from "../Sidebar";
 import Header from "./header";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const OnlinePie = () => {
+const OnlinePie = ({springBootServerUrl, Token}) => {
 
   const [apiData, setApiData] = useState(0);
   const [onlineDevices, setOnlineDevices] = useState(0);
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Token) {
-      navigate("/");
-    }
-    const TokenData = JSON.parse(Token);
-    const fetchAuth = async () => {
-      try {
-        const response = await fetch(
-          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching auth data:", error);
-        navigate("/");
-      }
-    };
-
     const fetchDevices = async () => {
       try {
         let response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/allData`,
+          `${springBootServerUrl}/api/deviceManagerInfo/allData`,
           {
             method: "GET",
             headers: {
-              Authorization: TokenData.AuthToken,
+              Authorization: "Bearer " + Token
             },
           }
         );
@@ -73,16 +40,10 @@ const OnlinePie = () => {
         console.error("Error fetching data:", error);
       }
     };
-
-    fetchAuth();
     fetchDevices();
   }, [
-    BaseUrlTr069,
-    PORTTr069,
     Token,
-    navigate,
-    BaseUrlSpring,
-    PORTSpring,
+    springBootServerUrl,
     setOnlineDevices,
   ]);
 

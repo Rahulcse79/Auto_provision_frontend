@@ -1,57 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import Header from "./cards/header";
 import { faDownload, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export default function Fault() {
+export default function Fault({springBootServerUrl, Token}) {
+
   const [apiData, setApiData] = useState([]);
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
 
-    const fetchData = async () => {
-      try {
-        if (!Token) navigate("/");
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(
-          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-          {
-            method: "post",
-            headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-
     const fetchData2 = async () => {
-      const TokenData = JSON.parse(Token);
+
       try {
         const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/listDevices`,
+          `${springBootServerUrl}/api/deviceManager/listDevices`,
           {
             method: "GET",
             headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
+              Authorization: "Bearer " + Token,
             },
           }
         );
@@ -73,19 +42,19 @@ export default function Fault() {
         console.error("Error fetching data:", error);
       }
     };
-    
+
     fetchData2();
   }, []);
 
   const handleDownload = async (FileName) => {
-    const TokenData = JSON.parse(Token);
+
     try {
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/download_file`,
+        `${springBootServerUrl}/api/deviceManager/download_file`,
         {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             FileName: FileName,
           },
         }
@@ -120,15 +89,15 @@ export default function Fault() {
   };
 
   const handleDelete = async (FileName) => {
-    const TokenData = JSON.parse(Token);
+
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/delete_file`,
+        `${springBootServerUrl}/api/deviceManager/delete_file`,
         {
           method: "DELETE",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             FileName: FileName,
           },
         }

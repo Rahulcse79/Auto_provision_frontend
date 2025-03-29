@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "./Image/logoDark.png"
-const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
+import Logo from "./Image/ServerLogo.png"
 
-export default function LogIn() {
+export default function LogIn({ trServerUrl, cookieName }) {
+
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("admin");
-
   const navigate = useNavigate();
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  // const BaseUrlTr069 = "localhost";
-  const PORTTr069 = "3000";
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -30,7 +26,7 @@ export default function LogIn() {
       return;
     }
     try {
-      let result = await fetch(`https://auto-provisioning-tr069.onrender.com/login`, {
+      let result = await fetch(`${trServerUrl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,9 +41,9 @@ export default function LogIn() {
         const Data = {
           AuthToken: result.AuthToken
         }
-        const cookieString = `${CookieName}=${JSON.stringify(Data)}`;
+        const cookieString = `${cookieName}=${JSON.stringify(Data)}`;
         document.cookie = cookieString;
-        
+
         navigate("/home");
       } else {
         alert("Incorrect Email and password.");
@@ -60,9 +56,8 @@ export default function LogIn() {
 
   return (
     <>
-       
       <div className="login-container21">
-        <img className="login-img" width={350} src ={Logo} alt ='Loading...'/>
+        <img className="login-img" width={350} src={Logo} alt='Loading...' />
         <form onSubmit={handleSubmit} className="login-form21">
           <h2>Login</h2>
           <div className="form-control21">

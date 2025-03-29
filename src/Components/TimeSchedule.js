@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import Header from "./cards/header";
 import Tabs from "./cards/Tabs";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Dropdown from "react-bootstrap/Dropdown";
 import { MdOnlinePrediction } from "react-icons/md";
 
-export default function TimeSchedule() {
-
-  const navigate = useNavigate();
+export default function TimeSchedule({ springBootServerUrl, Token }) {
 
   const [AllMacAddress, setAllMacAddress] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [activeTab, setActiveTab] = useState("Single time schedule");
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
   const [isLoading, setIsLoading] = useState(true);
   const [apiData, setApiData] = useState([]);
   const [currectApiData, setCurrectApiData] = useState([]);
@@ -33,34 +23,15 @@ export default function TimeSchedule() {
 
   useEffect(() => {
 
-    const fetchData = async () => {
-      try {
-        if (!Token) navigate("/");
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(`https://auto-provisioning-tr069.onrender.com/checkAuth`, {
-          method: "post",
-          headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
-          },
-        });
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     const fetchData2 = async () => {
       try {
-        const TokenData = JSON.parse(Token);
+
         const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/allData`,
+          `${springBootServerUrl}/api/deviceManagerInfo/allData`,
           {
             method: "GET",
             headers: {
-              Authorization: TokenData.AuthToken,
+              Authorization: "Bearer " + Token
             },
           }
         );
@@ -79,7 +50,6 @@ export default function TimeSchedule() {
       }
     };
 
-    fetchData();
     fetchData2();
 
     const intervalId = setInterval(() => {
@@ -88,10 +58,9 @@ export default function TimeSchedule() {
 
     return () => clearInterval(intervalId);
 
-  }, [setApiData,
-    BaseUrlSpring,
-    PORTSpring,
-    Token,]);
+  }, [ setApiData,
+    springBootServerUrl,
+    Token, phoneSelect ]);
 
   const handleFileTypeChange = (event) => {
     setFileType(event.target.value);
@@ -119,14 +88,14 @@ export default function TimeSchedule() {
     const Correctdate = `${day}/${month}/${year}`;
     try {
       let response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/addFileAutoDeploy/${macAddress}`,
+        `${springBootServerUrl}/api/deviceManager/addFileAutoDeploy/${macAddress}`,
         {
           method: "put",
           body: formData,
           headers: {
             time: time,
             Filetype: fileType,
-            Authorization: Token,
+            Authorization: "Bearer " + Token,
             dateoffile: Correctdate,
           },
         }
@@ -185,7 +154,7 @@ export default function TimeSchedule() {
       const year = new Date(date).getFullYear();
       const Correctdate = `${day}/${month}/${year}`;
       setIsLoading(true);
-      const TokenData = JSON.parse(Token);
+
       let formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("macAddresses", AllMacAddress.join(","));
@@ -193,11 +162,11 @@ export default function TimeSchedule() {
       formData.append("time", time);
       formData.append("date", Correctdate);
       let response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/FirewareBulkUpdateAndUpload`,
+        `${springBootServerUrl}/api/deviceManager/FirewareBulkUpdateAndUpload`,
         {
           method: "PUT",
           headers: {
-            "Authorization": "Bearer " + TokenData.AuthToken,
+            "Authorization": "Bearer " + Token,
           },
           body: formData
         }

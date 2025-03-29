@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Sidebar from "./Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import Tabs from "./cards/Tabs";
 import Header from "./cards/header";
 import Switch from "@mui/material/Switch";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export default function SystemSetting() {
+export default function SystemSetting( {nodeServerUrl, Token} ) {
 
   const [subnet, setSubnet] = useState("");
   const [netmask, setNetmask] = useState("");
@@ -18,51 +16,17 @@ export default function SystemSetting() {
   const [tftpServerName, setTftpServerName] = useState("");
   const [DhcpOn, setDhcpOn] = useState(false);
   const [TftpOn, setTftpOn] = useState(false);
-  const navigate = useNavigate();
-  const Token = Cookies.get(process.env.REACT_APP_COOKIENAME || "auto provision");
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const BaseUrlNode = window.location.host.split(":")[0] || "localhost";
-  const PORTNode = process.env.REACT_APP_API_NODE_PORT || "4058";
   const [isLoading, setIsLoading] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      if (!Token) navigate("/");
-      const TokenData = JSON.parse(Token);
-      const response = await fetch(
-        `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      if (data.status !== 1) {
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      navigate("/");
-    }
-  };
 
   const fetchData2 = async () => {
     try {
-
-      const TokenData = JSON.parse(Token);
       const DhcpStart = "2";
       const TftpStart = "2";
-      const url = `https://auto-provisioning-node-backend.onrender.com/checkStatus`;
+      const url = `${nodeServerUrl}/checkStatus`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + TokenData.AuthToken,
+          Authorization: "Bearer " + Token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -85,10 +49,7 @@ export default function SystemSetting() {
     }
   };
 
-  useEffect(() => {
-    fetchData2();
-    fetchData();
-  }, []);
+  fetchData2();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -103,7 +64,7 @@ export default function SystemSetting() {
     };
     try {
       const response = await fetch(
-        `https://auto-provisioning-node-backend.onrender.com/submitDHCPConfig`,
+        `${nodeServerUrl}/submitDHCPConfig`,
         {
           method: "POST",
           headers: {
@@ -134,15 +95,15 @@ export default function SystemSetting() {
   const handleSwitchChange = async (event) => {
     try {
       setIsLoading(true);
-      const TokenData = JSON.parse(Token);
+     
       const DhcpStart = DhcpOn ? "0" : "1";
       const TftpStart = "2";
       const response = await fetch(
-        `https://auto-provisioning-node-backend.onrender.com/checkStatus`,
+        `${nodeServerUrl}/checkStatus`,
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -169,15 +130,15 @@ export default function SystemSetting() {
   const handleSwitchChange2 = async (event) => {
     try {
       setIsLoading(true);
-      const TokenData = JSON.parse(Token);
+     
       const TftpStart = TftpOn ? "0" : "1";
       console.log(TftpStart);
-      const url = `https://auto-provisioning-node-backend.onrender.com/checkStatus`;
+      const url = `${nodeServerUrl}/checkStatus`;
       const DhcpStart = "2";
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + TokenData.AuthToken,
+          Authorization: "Bearer " + Token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

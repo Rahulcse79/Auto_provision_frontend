@@ -1,57 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import { faTrash, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from './cards/header'
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export default function AutoUpdate() {
+export default function AutoUpdate({springBootServerUrl, Token}) {
 
   const [apiData, setApiData] = useState([]);
   const [apiFailData, setFailApiData] = useState([]);
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const navigate = useNavigate();
-  const Token = Cookies.get(CookieName);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    
-    const fetchData = async () => {
-      try {
-        if (!Token) navigate("/");
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(`https://auto-provisioning-tr069.onrender.com/checkAuth`, {
-          method: "post",
-          headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
-          },
-        });
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
 
     const fetchData2 = async () => {
       try {
         
         const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerAutoDeploy/allAutoDeployData`,
+          `${springBootServerUrl}/api/deviceManagerAutoDeploy/allAutoDeployData`,
           {
             method: "GET",
             headers: {
-              Authorization: Token,
+              Authorization: "Bearer " + Token
             },
           }
         );
@@ -84,11 +54,11 @@ export default function AutoUpdate() {
   const handleDelete = async (id) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerAutoDeploy/deleteAutoDeployData/${id}`, {
+      const response = await fetch(`${springBootServerUrl}/api/deviceManagerAutoDeploy/deleteAutoDeployData/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: Token,
+          Authorization: "Bearer " + Token
         },
       });
       if (response.ok) {
@@ -108,7 +78,7 @@ export default function AutoUpdate() {
   const handleDownload = async (id) => {
     try {
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerAutoDeploy/AutoDeployData/${id}`,
+        `${springBootServerUrl}/api/deviceManagerAutoDeploy/AutoDeployData/${id}`,
         {
           method: "GET",
           headers: {

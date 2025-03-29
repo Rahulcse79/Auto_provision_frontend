@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import { FaEdit, FaSave } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { ImCross } from "react-icons/im";
@@ -9,7 +7,8 @@ import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Dropdown from "react-bootstrap/Dropdown";
 
-export default function PhoneFiles() {
+export default function PhoneFiles({ springBootServerUrl, Token}) {
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [Data, setData] = useState({
     IpAddress: "",
@@ -20,13 +19,6 @@ export default function PhoneFiles() {
   const [apiDataList, setApiDataList] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [showForm, setShowForm] = useState(0);
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
-  const navigate = useNavigate();
   const [xmlContent, setXmlContent] = useState("");
   const [isValidXml, setIsValidXml] = useState(true);
   const [showXMLForm, setShowXMLForm] = useState(false);
@@ -38,13 +30,13 @@ export default function PhoneFiles() {
 
   const fetchData2 = async () => {
     try {
-      const TokenData = JSON.parse(Token);
+     
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/allPhoneFile`,
+        `${springBootServerUrl}/api/deviceManager/allPhoneFile`,
         {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
           },
         }
       );
@@ -60,39 +52,17 @@ export default function PhoneFiles() {
     }
   };
 
-  const fetchData = async () => {
-    try {
-      if (!Token) navigate("/");
-      const TokenData = JSON.parse(Token);
-      const response = await fetch(
-        `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-        {
-          method: "post",
-          headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
-          },
-        }
-      );
-      const data = await response.json();
-      if (data.status !== 1) {
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
 
     const fetchData3 = async () => {
       try {
-        const TokenData = JSON.parse(Token);
+       
         const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/allData`,
+          `${springBootServerUrl}/api/deviceManagerInfo/allData`,
           {
             method: "GET",
             headers: {
-              Authorization: TokenData.AuthToken,
+              Authorization: "Bearer " + Token
             },
           }
         );
@@ -108,7 +78,6 @@ export default function PhoneFiles() {
       }
     };
 
-    fetchData();
     fetchData3();
     fetchData2();
 
@@ -119,8 +88,7 @@ export default function PhoneFiles() {
     return () => clearInterval(intervalId);
   }, [
     setApiData,
-    BaseUrlSpring,
-    PORTSpring,
+    springBootServerUrl,
     Token,
   ]);
 
@@ -131,14 +99,13 @@ export default function PhoneFiles() {
 
   const SaveXMLToBackend = async () => {
     try {
-      const TokenData = JSON.parse(Token);
       const formData = new FormData();
       formData.append("file", new Blob([xmlContent], { type: "application/xml" }), editFileName);
       formData.append("fileName", editFileName);
-      const response = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/updateIpFile`, {
+      const response = await fetch(`${springBootServerUrl}/api/deviceManager/updateIpFile`, {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + TokenData.AuthToken,
+          Authorization: "Bearer " + Token,
         },
         body: formData,
       });
@@ -233,13 +200,13 @@ export default function PhoneFiles() {
     }
   
     try {
-      const TokenData = JSON.parse(Token);
+     
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/updateByFile`,
+        `${springBootServerUrl}/api/deviceManager/updateByFile`,
         {
           method: "POST",
           headers: {
-            "Authorization": "Bearer " + TokenData.AuthToken,
+            "Authorization": "Bearer " + Token,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(ActiveMacAddress),
@@ -268,14 +235,14 @@ export default function PhoneFiles() {
   
   const ApplyChanges = async (Call) => {
     try {
-      const TokenData = JSON.parse(Token);
+     
       let response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/ApplyChanges`,
+        `${springBootServerUrl}/api/deviceManager/ApplyChanges`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
           },
           body: JSON.stringify({
             ipAddress: Data.IpAddress,
@@ -335,13 +302,13 @@ export default function PhoneFiles() {
       .map((file) => file.replace(/^cfg/, "").replace(/\.xml$/, ""))
       .filter((macAddress) => macAddress !== "sample.cnf");
     try {
-      const TokenData = JSON.parse(Token);
+     
       let response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/SyncConfig`,
+        `${springBootServerUrl}/api/deviceManager/SyncConfig`,
         {
           method: "POST",
           headers: {
-            "Authorization": "Bearer " + TokenData.AuthToken,
+            "Authorization": "Bearer " + Token,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(macAddresses),
@@ -369,13 +336,13 @@ export default function PhoneFiles() {
     }
     setIsLoading(true);
     try {
-      const TokenData = JSON.parse(Token);
+     
       let response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/SyncConfigAll`,
+        `${springBootServerUrl}/api/deviceManagerInfo/SyncConfigAll`,
         {
           method: "GET",
           headers: {
-            "Authorization": "Bearer " + TokenData.AuthToken,
+            "Authorization": "Bearer " + Token,
             "Content-Type": "application/json",
           }
         }
@@ -409,14 +376,14 @@ export default function PhoneFiles() {
     if (!window.confirm("Are you sure you want to change old mac address: " + macOldChange + " to new mac address: " + macChange)) {
       return;
     }
-    const TokenData = JSON.parse(Token);
+   
     try {
       let response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/changeMacAddress`,
+        `${springBootServerUrl}/api/deviceManager/changeMacAddress`,
         {
           method: "POST",
           headers: {
-            "Authorization": "Bearer " + TokenData.AuthToken,
+            "Authorization": "Bearer " + Token,
             "oldMacAddress": macOldChange,
             "NewMacAddress": macChange,
             "Content-Type": "application/json",

@@ -3,58 +3,26 @@ import DashboardCard from "./cards/index";
 import { Container, Row, Col } from "react-bootstrap";
 import { FaMobileAlt, FaClock, FaHistory } from "react-icons/fa";
 import Navbar from "./Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import PieChartComponent from "./cards/Piechart";
 import Header from "./cards/header";
 
-const Dashboard = () => {
-  const navigate = useNavigate();
+const Dashboard = ({ nodeServerUrl, springBootServerUrl, Token}) => {
+
   const [timeschedule, setTimeschedule] = useState(0);
   const [countHistory, setCountHistory] = useState(0);
   const [systemHealth, setSystemHealth] = useState(null);
   const [onlineDevices, setOnlineDevices] = useState(0);
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const BaseUrlNode = window.location.host.split(":")[0] || "localhost";
-  const PORTNode = process.env.REACT_APP_API_NODE_PORT || "4058";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
 
   useEffect(() => {
-    if (!Token) navigate("/");
-    const TokenData = JSON.parse(Token);
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-          {
-            method: "post",
-            headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
 
-    const fetchData2 = async () => {
+    const fetchData1 = async () => {
       try {
         let response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/allData`,
+          `${springBootServerUrl}/api/deviceManagerInfo/allData`,
           {
             method: "GET",
             headers: {
-              Authorization: TokenData.AuthToken,
+              Authorization: "Bearer " + Token
             },
           }
         );
@@ -73,14 +41,14 @@ const Dashboard = () => {
       }
     };
 
-    const fetchData3 = async () => {
+    const fetchData2 = async () => {
       try {
         const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerAutoDeploy/allAutoDeployData`,
+          `${springBootServerUrl}/api/deviceManagerAutoDeploy/allAutoDeployData`,
           {
             method: "GET",
             headers: {
-              Authorization: TokenData.AuthToken,
+              Authorization: "Bearer " + Token
             },
           }
         );
@@ -91,14 +59,14 @@ const Dashboard = () => {
       }
     };
 
-    const fetchData4 = async () => {
+    const fetchData3 = async () => {
       try {
         const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerHistory/historys`,
+          `${springBootServerUrl}/api/deviceManagerHistory/historys`,
           {
             method: "GET",
             headers: {
-              Authorization: TokenData.AuthToken,
+              Authorization: "Bearer " + Token
             },
           }
         );
@@ -109,14 +77,14 @@ const Dashboard = () => {
       }
     };
 
-    const fetchData5 = async () => {
+    const fetchData4 = async () => {
       try {
         const response = await fetch(
-          `https://auto-provisioning-node-backend.onrender.com/systemHealth`,
+          `${nodeServerUrl}/systemHealth`,
           {
             method: "GET",
             headers: {
-              Authorization: TokenData.AuthToken,
+              Authorization: "Bearer " + Token
             },
           }
         );
@@ -130,16 +98,16 @@ const Dashboard = () => {
       }
     };
 
+    fetchData1();
     fetchData2();
-    fetchData4();
     fetchData3();
 
     const intervalId = setInterval(() => {
-      fetchData5();
+      fetchData4();
     }, 10000);
 
     return () => clearInterval(intervalId);
-  }, [BaseUrlNode,PORTNode]);
+  }, [nodeServerUrl, springBootServerUrl]);
 
   return (
     <>

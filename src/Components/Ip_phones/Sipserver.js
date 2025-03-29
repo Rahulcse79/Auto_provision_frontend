@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Cookies from "js-cookie";
 import IP2LG from "../Image/ip2lg.png";
 import IP2LP from "../Image/ip2lp.png";
 import IP4LP from "../Image/ip4lp.png";
@@ -8,26 +7,19 @@ import AVP6LP from "../Image/avp6lp.png";
 import Dropdown from "react-bootstrap/Dropdown";
 import Papa from "papaparse";
 import { useNavigate } from "react-router-dom";
-// import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export default function SipServer() {
+export default function SipServer({springBootServerUrl, Token}) {
 
   const [fileData, setFileData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fileInputKey, setFileInputKey] = useState(Date.now());
   const navigate = useNavigate();
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
   const [sipServer, setSipServer] = useState("");
   const [phoneSelect, setPhoneSelect] = useState("IP2LG");
   const [account, setAccount] = useState("1");
   const Profile = "1";
   const [totalNo, setTotalNo] = useState(2);
-  // const [profileNo, setProfileTotalNo] = useState(2);
   const accountOptions = Array.from({ length: totalNo }, (_, i) => i + 1);
-  // const profileOptions = Array.from({ length: profileNo }, (_, i) => i + 1);
   const [macAddress, setMacAddress] = useState("");
   const [account_Label, setAccount_Label] = useState("");
   const [account_SipUserId, setAccount_SipUserId] = useState("");
@@ -41,17 +33,16 @@ export default function SipServer() {
   const [sipServerIp, setSipServerIp] = useState("");
   const [sipPort, setSipPort] = useState("");
   const [ShowPageBulk, setShowPageBulk] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
+
   const handleCheckboxChange = (e, setActive) => {
     setActive(e.target.checked);
   };
-
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
       Papa.parse(file, {
-        header: true, // To parse the CSV into JSON objects
+        header: true,
         skipEmptyLines: true,
         complete: (result) => {
           const uniqueData = removeDuplicates(result.data);
@@ -91,13 +82,13 @@ export default function SipServer() {
 
   // const fetchData2 = async () => {
   //   try {
-  //     const TokenData = JSON.parse(Token);
+  //    
   //     const response = await fetch(
-  //       `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerInfo/allData`,
+  //       `${springBootServerUrl}/api/deviceManagerInfo/allData`,
   //       {
   //         method: "GET",
   //         headers: {
-  //           Authorization: TokenData.AuthToken,
+  //           Authorization: "Bearer " + Token
   //         },
   //       }
   //     );
@@ -131,13 +122,13 @@ export default function SipServer() {
         })),
       };
       if (!Token) navigate("/");
-      const TokenData = JSON.parse(Token);
+     
       // Make the API call
-      const response = await fetch(`http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/bulkProvisioning`, {
+      const response = await fetch(`${springBootServerUrl}/api/deviceManager/bulkProvisioning`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + TokenData.AuthToken,
+          Authorization: "Bearer " + Token,
         },
         body: JSON.stringify(payload),
       });
@@ -188,12 +179,12 @@ export default function SipServer() {
         },
       };
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/sip/${macAddress}`,
+        `${springBootServerUrl}/api/deviceManager/sip/${macAddress}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${TokenData.AuthToken}`,
+            Authorization: `Bearer ${Token}`,
           },
           body: JSON.stringify(postData),
         }

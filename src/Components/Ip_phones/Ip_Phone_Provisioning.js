@@ -1,51 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Header from "../cards/header";
 import Sipserver from "../Ip_phones/Sipserver";
 import Tabs from "../cards/Tabs";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const IpPhoneProvisioning = () => {
+const IpPhoneProvisioning = ({ springBootServerUrl, Token }) => {
+
   const [activeTab, setActiveTab] = useState("Account Settings");
   const [AddMacAddress, setAddMacAddress] = useState([]);
   const [MacAddress, setMacAddress] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const navigate = useNavigate();
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!Token) navigate("/");
-    const fetchData = async () => {
-      try {
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(
-          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-          {
-            method: "post",
-            headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
 
   const RebootCall = async () => {
     if (MacAddress !== "") {
@@ -60,14 +27,14 @@ const IpPhoneProvisioning = () => {
       (item) => item.MacAddress
     );
     try {
-      const TokenData = JSON.parse(Token);
+
       let result = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/rebootBulk`,
+        `${springBootServerUrl}/api/deviceManager/rebootBulk`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
           },
           body: JSON.stringify(FormatedDataAddMacAddress),
         }
@@ -104,14 +71,14 @@ const IpPhoneProvisioning = () => {
     );
     console.log(FormatedDataAddMacAddress);
     try {
-      const TokenData = JSON.parse(Token);
+
       let result = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/resetBulk`,
+        `${springBootServerUrl}/api/deviceManager/resetBulk`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
           },
           body: JSON.stringify(FormatedDataAddMacAddress),
         }
@@ -144,17 +111,17 @@ const IpPhoneProvisioning = () => {
     }
     setIsLoading(true);
     try {
-      const TokenData = JSON.parse(Token);
+
       let formData = new FormData();
       formData.append("file", selectedFile);
       const fileExtension = selectedFile.name.split(".").pop();
       const fileName = `cfg${MacAddress}.${fileExtension}`;
       let result = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/uploadConfig/${MacAddress}`,
+        `${springBootServerUrl}/api/deviceManager/uploadConfig/${MacAddress}`,
         {
           method: "post",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             fileName: fileName,
           },
           body: formData,
@@ -181,13 +148,13 @@ const IpPhoneProvisioning = () => {
     }
     setIsLoading(true);
     try {
-      const TokenData = JSON.parse(Token);
+
       let result = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/updateConfig/${MacAddress}`,
+        `${springBootServerUrl}/api/deviceManager/updateConfig/${MacAddress}`,
         {
           method: "get",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
           },
         }
       );
@@ -219,17 +186,17 @@ const IpPhoneProvisioning = () => {
     }
     setIsLoading(true);
     try {
-      const TokenData = JSON.parse(Token);
+
       let formData = new FormData();
       formData.append("file", selectedFile);
       const fileExtension = selectedFile.name.split(".").pop();
       const extensionName = `${fileExtension}`;
       let result = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/uploadFirmware/${MacAddress}`,
+        `${springBootServerUrl}/api/deviceManager/uploadFirmware/${MacAddress}`,
         {
           method: "put",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             extensionName: extensionName,
           },
           body: formData,
@@ -256,13 +223,13 @@ const IpPhoneProvisioning = () => {
     }
     setIsLoading(true);
     try {
-      const TokenData = JSON.parse(Token);
+
       let result = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManager/updateFirmware/${MacAddress}`,
+        `${springBootServerUrl}/api/deviceManager/updateFirmware/${MacAddress}`,
         {
           method: "get",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
           },
         }
       );
@@ -300,7 +267,7 @@ const IpPhoneProvisioning = () => {
       case "Account Settings":
         return (
           <>
-            <Sipserver />
+            <Sipserver springBootServerUrl={springBootServerUrl} Token={Token} />
           </>
         );
       case "Manage device":
@@ -446,7 +413,7 @@ const IpPhoneProvisioning = () => {
     }
   };
 
-  
+
   return (
     <>
       <Navbar />

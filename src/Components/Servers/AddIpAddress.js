@@ -1,63 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import Header from "../cards/header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-export default function AddIpAddress() {
+export default function AddIpAddress({nodeServerUrl, Token}) {
 
-  const navigate = useNavigate();
   const [apiData, setApiData] = useState([]);
   const [ipAddresses, setIpAddresses] = useState([]);
   const [deleteNumber, setDeleteNumber] = useState(-1);
   const [showNumber, setShowNumber] = useState(-1);
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const BaseUrlNode = window.location.host.split(":")[0] || "localhost";
-  const PORTNode = process.env.REACT_APP_API_NODE_PORT || "4058";
-  const Token = Cookies.get(CookieName);
-
-  useEffect(() => {
-    if (!Token) navigate("/");
-    const fetchData = async () => {
-      try {
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(
-          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-          {
-            method: "post",
-            headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
   const handleFileUpload = async (provision) => {
     if (ipAddresses.length === 0) {
       alert("Enter at least one IP Address.");
       return;
     }
     try {
-      const TokenData = JSON.parse(Token);
       const response = await fetch(
-        `https://auto-provisioning-node-backend.onrender.com/addIPAddress`,
+        `${nodeServerUrl}/addIPAddress`,
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -103,13 +67,13 @@ export default function AddIpAddress() {
 
   const handleDelete = async (ipAddress) => {
     try {
-      const TokenData = JSON.parse(Token);
+     
       const response = await fetch(
-        `https://auto-provisioning-node-backend.onrender.com/addIPAddress/delete`,
+        `${nodeServerUrl}/addIPAddress/delete`,
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -132,13 +96,13 @@ export default function AddIpAddress() {
 
   const handleList = async (provision) => {
     try {
-      const TokenData = JSON.parse(Token);
+     
       const response = await fetch(
-        `https://auto-provisioning-node-backend.onrender.com/getIpAddress`,
+        `${nodeServerUrl}/getIpAddress`,
         {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             "Content-Type": "application/json",
             provision: provision,
           },

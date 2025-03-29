@@ -13,7 +13,7 @@ import { AiOutlineOrderedList } from 'react-icons/ai';
 import { SiServerfault } from "react-icons/si";
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
+
 
 const SidebarDataPage = () => {
  

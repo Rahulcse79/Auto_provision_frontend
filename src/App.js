@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation, useState, useEffect } from "react-router-dom";
 import Home from "./Components/Home";
 import IpPhoneProvisioning from "./Components/Ip_phones/Ip_Phone_Provisioning";
 import LinuxProvisioning from "./Components/Servers/SIP_Servers/Linux_Provisioning";
@@ -19,30 +19,77 @@ import Faults from "./Components/Faults";
 import PhoneFiles from "./Components/Ip_phones/PhoneFiles";
 
 function App() {
+
   document.body.style.backgroundColor = '#4a4a4a';
+  const Cookie_name = process.env.REACT_APP_COOKIENAME || "Auto_Provisioning_Server";
+  const TR_server_url = process.env.REACT_APP_TR_SERVER_URL || "http://0.0.0.0:3000";
+  const Node_server_url = process.env.REACT_APP_NODE_SERVER_URL || "http://0.0.0.0:4058";
+  const SpringBoot_server_url = process.env.REACT_APP_SPRINGBOOT_SERVER_URL || "http://0.0.0.0:9093";
+  const navigate = useNavigate();
+  const [Token, setToken] = useState(null);
+  const location = useLocation();
+  let CheckCookie = false;
+
+  useEffect(() => {
+
+    if (location.pathname === "/") return;
+    else if (location.pathname === "/" && CheckCookie) {
+      navigate("/home");
+    }
+
+    if (CheckCookie === false) {
+      const FetchCookie = localStorage.getItem(Cookie_name);
+      if (FetchCookie !== null) {
+        const TokenData = JSON.parse(FetchCookie);
+        setToken(TokenData.AuthToken);
+        CheckCookie = true;
+      }
+    }
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${TR_server_url}/checkAuth`,
+          {
+            method: "post",
+            headers: {
+              Authorization: "Bearer " + Token,
+            },
+          }
+        );
+        const data = await response.json();
+        if (data.status !== 1) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="App">
-       <BrowserRouter> {/* basename="/device-manager" */}
+      <BrowserRouter>
         <Routes>
 
-          <Route path="/home" element={<Home/>}/>
-          <Route path="/Backup_config" element={<PhoneFiles/>}/>
-          <Route path="/cisco_CP-3905" element={<CiscoPhone/>}/>
-          <Route path="/history" element={<History/>}/>
-          <Route path="/auto-update" element={<AutoUpdate/>}/>
-          <Route path="/ip-phone-provisioning" element={<IpPhoneProvisioning/>}/>
-          <Route path="/linux-provisioning" element={<LinuxProvisioning/>}/>
-          <Route path="/time-schedule" element={<TimeSchedule/>}/>
-          <Route path="/" element={<LogIn/>}/>
-          <Route path="/system-setting" element={<Setting/>}/>
-          <Route path="/fileUploadList" element={<FileUpload/>}/>
-          <Route path="/listing-devices" element={<ListDevices/>}/>
-          <Route path="/iot_gateway" element={<IotGateway/>}/>
-          <Route path="/online-devices" element={<OnlineDevices/>}/>
-          <Route path="/call-server" element={<CallServer/>}/>
-          <Route path="/add-IPAddress" element={<AddIpAddress/>}/>
-          <Route path="/faults" element={<Faults/>}/>
+          <Route path="/home" element={<Home nodeServerUrl={Node_server_url} springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/Backup_config" element={<PhoneFiles springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/cisco_CP-3905" element={<CiscoPhone springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/history" element={<History springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/auto-update" element={<AutoUpdate springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/ip-phone-provisioning" element={<IpPhoneProvisioning springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/linux-provisioning" element={<LinuxProvisioning nodeServerUrl={Node_server_url} Token={Token} />} />
+          <Route path="/time-schedule" element={<TimeSchedule springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/" element={<LogIn trServerUrl={TR_server_url} cookieName={Cookie_name} />} />
+          <Route path="/system-setting" element={<Setting nodeServerUrl={Node_server_url} Token={Token} />} />
+          <Route path="/fileUploadList" element={<FileUpload springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/listing-devices" element={<ListDevices springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/iot_gateway" element={<IotGateway />} />
+          <Route path="/online-devices" element={<OnlineDevices springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
+          <Route path="/call-server" element={<CallServer nodeServerUrl={Node_server_url} Token={Token} />} />
+          <Route path="/add-IPAddress" element={<AddIpAddress nodeServerUrl={Node_server_url} Token={Token} />} />
+          <Route path="/faults" element={<Faults springBootServerUrl={SpringBoot_server_url} Token={Token} />} />
 
         </Routes>
       </BrowserRouter>

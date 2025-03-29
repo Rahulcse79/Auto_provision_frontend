@@ -1,47 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../../Sidebar";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import Header from "../../cards/header";
 import Shell from "../../terminal";
 
-export default function CallServer() {
-  const navigate = useNavigate();
+export default function CallServer({nodeServerUrl, Token}) {
+
   const [shellData, setShellData] = useState(
     "Welcome to linux Shell! This is a read-only shell."
   );
   const [ipAddresses, setIpAddresses] = useState([]);
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const BaseUrlNode = window.location.host.split(":")[0] || "localhost";
-  const PORTNode = process.env.REACT_APP_API_NODE_PORT || "4058";
-  const CookieName = process.env.REACT_APP_COOKIENAME || "auto provision";
-  const Token = Cookies.get(CookieName);
-
-  useEffect(() => {
-    if (!Token) navigate("/");
-    const fetchData = async () => {
-      try {
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(
-          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-          {
-            method: "post",
-            headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status !== 1) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
 
   const handleFileUpload = async (provision) => {
     if (provision === 1) {
@@ -56,13 +23,13 @@ export default function CallServer() {
     }
     try {
       setShellData("Loading...");
-      const TokenData = JSON.parse(Token);
+
       const response = await fetch(
-        `https://auto-provisioning-node-backend.onrender.com/sendFile`,
+        `${nodeServerUrl}/sendFile`,
         {
           method: "post",
           headers: {
-            Authorization: "Bearer " + TokenData.AuthToken,
+            Authorization: "Bearer " + Token,
             provision: provision,
             devices: JSON.stringify(ipAddresses),
           },
@@ -113,7 +80,7 @@ export default function CallServer() {
           onSubmit={(e) => handleSubmit(e, 0)}
         >
           <button type="button" className="button21" onClick={addIpAddress}>
-            Add IPAddress + 
+            Add IPAddress +
           </button>
           {ipAddresses.map((item, index) => (
             <div className="form-group90" key={index}>

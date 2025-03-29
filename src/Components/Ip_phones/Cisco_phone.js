@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../Sidebar";
-import Cookies from "js-cookie";
+
 import Header from "../cards/header";
 import { useNavigate } from "react-router-dom";
 import Cisco from "../Image/cisco.png";
@@ -13,7 +13,8 @@ import { SiTicktick } from "react-icons/si";
 import { FaCircle } from "react-icons/fa6";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
-const Cisco_phone = () => {
+const Cisco_phone = ({springBootServerUrl, Token}) => {
+
   const [progressOpen, setProgressOpen] = useState(false);
   const [dhcp, setDhcp] = useState(true);
   const [defaultFile, setDefaultFile] = useState(true);
@@ -33,51 +34,20 @@ const Cisco_phone = () => {
   ]);
   const [showCross, setShowCross] = useState(false);
   const [allConditionsMet, setAllConditionsMet] = useState(true);
-
   const progressSidebarRef = useRef(null);
   const navigate = useNavigate();
-  const Token = Cookies.get(
-    process.env.REACT_APP_COOKIENAME || "auto provision"
-  );
-  const BaseUrlTr069 = window.location.host.split(":")[0] || "localhost";
-  const PORTTr069 = "3000";
-  const BaseUrlSpring = window.location.host.split(":")[0] || "localhost";
-  const PORTSpring = process.env.REACT_APP_API_SPRING_PORT || "9093";
 
   useEffect(() => {
-    if (!Token) {
-      navigate("/");
-      return;
-    }
-
-    const fetchData = async () => {
-      try {
-        const TokenData = JSON.parse(Token);
-        const response = await fetch(
-          `https://auto-provisioning-tr069.onrender.com/checkAuth`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
-            },
-          }
-        );
-        const data = await response.json();
-        if (data.status !== 1) navigate("/");
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
     const fetchData2 = async () => {
       try {
-        const TokenData = JSON.parse(Token);
+       
         const response = await fetch(
-          `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerCiscoHistory/alldata`,
+          `${springBootServerUrl}/api/deviceManagerCiscoHistory/alldata`,
           {
             method: "GET",
             headers: {
-              Authorization: "Bearer " + TokenData.AuthToken,
+              Authorization: "Bearer " + Token,
             },
           }
         );
@@ -90,7 +60,6 @@ const Cisco_phone = () => {
 
     const interval1 = setInterval(() => {
       fetchData2();
-      fetchData();
     }, 5000);
 
     const interval2 = setInterval(() => {
@@ -101,7 +70,7 @@ const Cisco_phone = () => {
       clearInterval(interval1);
       clearInterval(interval2);
     };
-  }, [navigate, PORTTr069, BaseUrlTr069, Token, BaseUrlSpring, PORTSpring]);
+  }, [navigate , Token, springBootServerUrl]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -148,7 +117,7 @@ const Cisco_phone = () => {
   const CallSubmit = async (event) => {
     event.preventDefault();
     try {
-      const TokenData = JSON.parse(Token);
+     
       const postData = {
         sipServer,
         macAddress,
@@ -161,12 +130,12 @@ const Cisco_phone = () => {
       };
 
       const response = await fetch(
-        `http://${BaseUrlSpring}:${PORTSpring}/api/deviceManagerCiscoHistory/ciscoConfig`,
+        `${springBootServerUrl}/api/deviceManagerCiscoHistory/ciscoConfig`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${TokenData.AuthToken}`,
+            Authorization: `Bearer ${Token}`,
           },
           body: JSON.stringify(postData),
         }

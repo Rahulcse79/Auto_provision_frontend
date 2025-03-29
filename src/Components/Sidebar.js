@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SidebarDataPage from "./SidebarDataPage";
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
-import Logo from "./Image/logoDark.png";
+import Logo from "./Image/ServerLogo.png";
 
 const SidebarNav = styled.nav`
   background-color: #0a0a0a;
@@ -55,8 +55,8 @@ const Sidebar = () => {
             ))}
           </SidebarWrap>
           <SidebarTextContainer>
-            <SidebarText>Coral Telecom</SidebarText>
-            <SidebarText>Version - 1.0</SidebarText>
+            <SidebarText>Auto Provision Server</SidebarText>
+            <SidebarText>Version - 1.0.0</SidebarText>
           </SidebarTextContainer>
         </SidebarNav>
       </IconContext.Provider>
