@@ -85,7 +85,7 @@ const LinuxProvisioning = () => {
       console.log("Devices:", devices);
   
       // Perform the POST request
-      let response = await fetch(`http://${BaseUrlNode}:${PORTNode}/linuxReboot`, {
+      let response = await fetch(`https://auto-provisioning-node-backend.onrender.com/linuxReboot`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${TokenData.AuthToken}`,
@@ -137,7 +137,7 @@ const LinuxProvisioning = () => {
       console.log("Devices:", devices);
   
       // Perform the POST request
-      let response = await fetch(`http://${BaseUrlNode}:${PORTNode}/linuxConfig`, {
+      let response = await fetch(`https://auto-provisioning-node-backend.onrender.com/linuxConfig`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${TokenData.AuthToken}`,

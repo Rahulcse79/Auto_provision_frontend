@@ -58,7 +58,7 @@ export default function CallServer() {
       setShellData("Loading...");
       const TokenData = JSON.parse(Token);
       const response = await fetch(
-        `http://${BaseUrlNode}:${PORTNode}/sendFile`,
+        `https://auto-provisioning-node-backend.onrender.com/sendFile`,
         {
           method: "post",
           headers: {

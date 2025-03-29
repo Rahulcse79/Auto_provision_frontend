@@ -53,7 +53,7 @@ export default function AddIpAddress() {
     try {
       const TokenData = JSON.parse(Token);
       const response = await fetch(
-        `http://${BaseUrlNode}:${PORTNode}/addIPAddress`,
+        `https://auto-provisioning-node-backend.onrender.com/addIPAddress`,
         {
           method: "POST",
           headers: {
@@ -105,7 +105,7 @@ export default function AddIpAddress() {
     try {
       const TokenData = JSON.parse(Token);
       const response = await fetch(
-        `http://${BaseUrlNode}:${PORTNode}/addIPAddress/delete`,
+        `https://auto-provisioning-node-backend.onrender.com/addIPAddress/delete`,
         {
           method: "POST",
           headers: {
@@ -134,7 +134,7 @@ export default function AddIpAddress() {
     try {
       const TokenData = JSON.parse(Token);
       const response = await fetch(
-        `http://${BaseUrlNode}:${PORTNode}/getIpAddress`,
+        `https://auto-provisioning-node-backend.onrender.com/getIpAddress`,
         {
           method: "GET",
           headers: {

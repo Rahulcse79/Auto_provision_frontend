@@ -58,7 +58,7 @@ export default function SystemSetting() {
       const TokenData = JSON.parse(Token);
       const DhcpStart = "2";
       const TftpStart = "2";
-      const url = `http://${BaseUrlNode}:${PORTNode}/checkStatus`;
+      const url = `https://auto-provisioning-node-backend.onrender.com/checkStatus`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -103,7 +103,7 @@ export default function SystemSetting() {
     };
     try {
       const response = await fetch(
-        `http://${BaseUrlNode}:${PORTNode}/submitDHCPConfig`,
+        `https://auto-provisioning-node-backend.onrender.com/submitDHCPConfig`,
         {
           method: "POST",
           headers: {
@@ -138,7 +138,7 @@ export default function SystemSetting() {
       const DhcpStart = DhcpOn ? "0" : "1";
       const TftpStart = "2";
       const response = await fetch(
-        `http://${BaseUrlNode}:${PORTNode}/checkStatus`,
+        `https://auto-provisioning-node-backend.onrender.com/checkStatus`,
         {
           method: "POST",
           headers: {
@@ -172,7 +172,7 @@ export default function SystemSetting() {
       const TokenData = JSON.parse(Token);
       const TftpStart = TftpOn ? "0" : "1";
       console.log(TftpStart);
-      const url = `http://${BaseUrlNode}:${PORTNode}/checkStatus`;
+      const url = `https://auto-provisioning-node-backend.onrender.com/checkStatus`;
       const DhcpStart = "2";
       const response = await fetch(url, {
         method: "POST",

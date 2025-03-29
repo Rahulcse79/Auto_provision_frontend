@@ -112,7 +112,7 @@ const Dashboard = () => {
     const fetchData5 = async () => {
       try {
         const response = await fetch(
-          `http://${BaseUrlNode}:${PORTNode}/systemHealth`,
+          `https://auto-provisioning-node-backend.onrender.com/systemHealth`,
           {
             method: "GET",
             headers: {
